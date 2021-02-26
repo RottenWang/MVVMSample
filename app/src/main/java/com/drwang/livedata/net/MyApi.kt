@@ -20,5 +20,5 @@ interface MyApi {
                  @Field("loginUrl") loginUrl: String = "/controller/NewLoginJson",
                  @Field("exceptionUrl") exceptionUrl: String = "/controller/NewLoginJson",
                  @Field("logoutUrl") logoutUrl: String = "/controller/NewLoginJson"
-    ): Response<Any>
+    ): Any
 }
