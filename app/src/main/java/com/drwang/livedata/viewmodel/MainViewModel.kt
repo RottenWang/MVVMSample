@@ -15,4 +15,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             name.postValue("testValue")
         }
     }
+
+    fun login(){
+
+
+    }
+
 }
