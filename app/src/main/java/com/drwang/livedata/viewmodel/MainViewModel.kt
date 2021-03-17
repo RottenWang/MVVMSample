@@ -5,30 +5,28 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.drwang.common.net.Api
 import com.drwang.livedata.base.BaseViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainViewModel(application: Application) : BaseViewModel(application) {
 
-
+    var job: Job? = null
     val name: SingleMutableLiveData<String> by lazy { SingleMutableLiveData<String>() }
     fun getName() {
-        viewModelScope.launch(handler) {
-            val data = withContext(Dispatchers.IO) {
-                Log.d("thread", "thread = " + Thread.currentThread())
-                //retrofit 添加了对协程的支持 会默认切线程 不需要切到IO
-                async {
-                    Api.myApi.appLogin("18811112222", "112222")
+        //如果正在执行 先取消
+        job?.cancel()
+        job = viewModelScope.launch(handler) {
+//            val data = withContext(Dispatchers.IO) {
+            Log.d("thread", "thread = " + Thread.currentThread())
+            //retrofit 添加了对协程的支持 会默认切线程 不需要切到IO
+            val appLogin = Api.myApi.appLogin("18811112222", "112222")
+            Log.d("wang", "suspend finish")
 
-                }
-                Api.myApi.appLogin("18811112222", "112222")
-
-            }
+//            }
 
 
         }
+//        job.cancel()
 //        doAsync {
 //            SystemClock.sleep(1000)
 //            name.postValue("testValue")

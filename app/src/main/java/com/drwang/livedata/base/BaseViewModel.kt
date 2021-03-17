@@ -3,10 +3,12 @@ package com.drwang.livedata.base
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonIOException
 import com.google.gson.JsonParseException
 import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import retrofit2.HttpException
 import java.net.ConnectException
@@ -15,6 +17,7 @@ import java.net.UnknownHostException
 import java.text.ParseException
 
 open class BaseViewModel(application: Application) : AndroidViewModel(application) {
+
     val handler = CoroutineExceptionHandler { context, throwable ->
         Log.d("ERRORERROR",throwable.message)
         Log.d("ERRORERROR",Thread.currentThread().toString())
@@ -41,6 +44,8 @@ open class BaseViewModel(application: Application) : AndroidViewModel(applicatio
 //                apiException = ApiException(throwable, UNKNOWN, "未知错误")
             }
 
-
+            viewModelScope.launch {
+                
+            }
     }
 }
