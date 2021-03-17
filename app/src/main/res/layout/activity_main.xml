@@ -19,5 +19,9 @@
     <com.drwang.livedata.view.ImageTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <com.drwang.livedata.view.PointView
+        android:id="@+id/pv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

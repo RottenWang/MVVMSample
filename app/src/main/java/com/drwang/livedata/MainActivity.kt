@@ -1,12 +1,13 @@
 package com.drwang.livedata
 
+import android.animation.ObjectAnimator
+import android.animation.TypeEvaluator
+import android.graphics.PointF
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.drwang.livedata.base.BaseMVVMActivity
 import com.drwang.livedata.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.*
-import java.io.IOException
 
 class MainActivity : BaseMVVMActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,18 @@ class MainActivity : BaseMVVMActivity() {
 //            override fun onResponse(call: Call, response: Response) {
 //            }
 //        })
+        var objectAnimator = ObjectAnimator.ofObject(pv, "pointF", evaluater(), PointF(300f,300f))
+        objectAnimator.duration = 1000
+        objectAnimator.start()
     }
 
+    inner class evaluater : TypeEvaluator<PointF> {
+        override fun evaluate(fraction: Float, startValue: PointF, endValue: PointF): PointF {
+            var x = startValue.x + (endValue.x - startValue.x) * fraction
+            var y = startValue.y + (endValue.y - startValue.y) * fraction
+            return PointF(x, y)
+        }
+
+    }
 
 }
