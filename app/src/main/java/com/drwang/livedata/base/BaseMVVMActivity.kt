@@ -3,10 +3,8 @@ package com.drwang.livedata.base
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.drwang.livedata.R
-import com.drwang.livedata.viewmodel.BaseViewModel
 
 abstract class BaseMVVMActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {

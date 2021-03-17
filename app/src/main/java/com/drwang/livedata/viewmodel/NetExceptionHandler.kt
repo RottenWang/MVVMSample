@@ -1,8 +1,6 @@
 package com.drwang.livedata.viewmodel
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import com.google.gson.JsonIOException
 import com.google.gson.JsonParseException
 import com.google.gson.JsonSyntaxException
@@ -14,16 +12,26 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.text.ParseException
 
-open class BaseViewModel(application: Application) : AndroidViewModel(application) {
-    val handler = CoroutineExceptionHandler { context, throwable ->
-        Log.d("ERRORERROR",throwable.message)
+//TODO 存在线程安全问题
+class NetExceptionHandler {
+
+    companion object {
+        val instance: NetExceptionHandler by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+            NetExceptionHandler()
+        }
+    }
+
+    val handler by lazy {
+        CoroutineExceptionHandler { context, throwable ->
+            Log.d("ERRORERROR", throwable.message)
+            Log.d("ERRORERROR", Thread.currentThread().toString())
 //            val apiException: ApiException
             if (throwable is ConnectException
                     || throwable is SocketTimeoutException
                     || throwable is UnknownHostException) {
 //                apiException = ApiException(throwable, NETWORK_ERROR, "网络连接错误")
 
-            }else if (throwable is HttpException) {
+            } else if (throwable is HttpException) {
 //                apiException = ApiException(throwable, HTTP_ERROR, "HTTP协议错误: ${throwable.code()}")
 
             } else if (throwable is JsonParseException
@@ -41,5 +49,7 @@ open class BaseViewModel(application: Application) : AndroidViewModel(applicatio
             }
 
 
+        }
     }
+
 }
