@@ -19,15 +19,15 @@ class MainActivity : BaseMVVMActivity() {
             }
         })
         viewModel.getName()
-        val client = OkHttpClient().newBuilder().build()
-        client.newCall(Request.Builder().build()).enqueue(object:Callback{
-            override fun onFailure(call: Call, e: IOException) {
-
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-            }
-        })
+//        val client = OkHttpClient().newBuilder().build()
+//        client.newCall(Request.Builder().build()).enqueue(object:Callback{
+//            override fun onFailure(call: Call, e: IOException) {
+//
+//            }
+//
+//            override fun onResponse(call: Call, response: Response) {
+//            }
+//        })
     }
 
 
