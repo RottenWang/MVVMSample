@@ -6,8 +6,19 @@ import android.util.AttributeSet
 import android.view.View
 import com.drwang.livedata.R
 
-class FlipView(context: Context, attributes: AttributeSet?) : View(context, attributes) {
+class FlipView : View {
 
+    constructor(context: Context) : super(context, null) {
+        init()
+    }
+
+    public constructor(context: Context, attributes: AttributeSet) : super(context, attributes) {
+        init()
+    }
+
+    private fun init() {
+
+    }
 
     val paint by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG)
