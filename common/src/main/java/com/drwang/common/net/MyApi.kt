@@ -1,4 +1,4 @@
-package com.drwang.livedata.net
+package com.drwang.common.net
 
 import androidx.lifecycle.LiveData
 import retrofit2.Response
@@ -20,7 +20,7 @@ interface MyApi {
                          @Field("loginUrl") loginUrl: String = "/controller/NewLoginJson",
                          @Field("exceptionUrl") exceptionUrl: String = "/controller/NewLoginJson",
                          @Field("logoutUrl") logoutUrl: String = "/controller/NewLoginJson"
-    ): Any
+    ): MyResponse<Any>
 
     /**
      * app登录

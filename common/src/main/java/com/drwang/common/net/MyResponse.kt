@@ -1,4 +1,4 @@
-package com.drwang.livedata.net
+package com.drwang.common.net
 
 class MyResponse<T> {
     var code: Int? = null

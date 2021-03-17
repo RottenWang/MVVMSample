@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.TypeEvaluator
 import android.graphics.PointF
 import android.os.Bundle
+import android.os.Handler
 import androidx.lifecycle.Observer
 import com.drwang.livedata.base.BaseMVVMActivity
 import com.drwang.livedata.viewmodel.MainViewModel
@@ -14,6 +15,7 @@ class MainActivity : BaseMVVMActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val viewModel = getViewModel(MainViewModel::class.java)
+        textView.text = "hello world"
         viewModel.name.observe(this, object : Observer<String> {
             override fun onChanged(t: String?) {
                 textView.text = t
