@@ -25,6 +25,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     fun getName() {
         //如果正在执行 先取消
         job?.cancel()
+
         job = viewModelScope.launch() {
 //            val data = withContext(Dispatchers.IO) {
             Log.d("thread", "thread = " + Thread.currentThread())
