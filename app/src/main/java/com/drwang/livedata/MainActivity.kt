@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.TypeEvaluator
 import android.graphics.PointF
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.lifecycle.Observer
 import com.drwang.common.base.BaseMVVMActivity
 import com.drwang.livedata.viewmodel.MainViewModel
