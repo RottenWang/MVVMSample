@@ -8,12 +8,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-kapt'
-kapt {
-//        if (isAppModule || isSubView)
-    arguments {
-        arg("moduleName", project.getName())
-    }
-}
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -73,5 +67,6 @@ dependencies {
     api 'androidx.multidex:multidex:2.0.1'
     api 'com.github.zhaokaiqiang.klog:library:1.6.0'
     api rootProject.ext.dependencies.arouterApi
+    // 使用kapt插件
     kapt rootProject.ext.dependencies.arouterCompiler
 }

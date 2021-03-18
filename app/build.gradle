@@ -4,12 +4,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
 }
-kapt {
-//        if (isAppModule || isSubView)
-    arguments {
-        arg("moduleName", project.getName())
-    }
-}
+
 android {
 
     compileSdkVersion rootProject.ext.android.compileSdkVersion
