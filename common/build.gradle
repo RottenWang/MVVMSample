@@ -1,20 +1,32 @@
-plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-}
+//判断是否单独打包运行
+def isModule = rootProject.ext.isModule.toBoolean() == true
+//if (isModule) {
+//    apply plugin: 'com.android.application'
+//} else {
+apply plugin: 'com.android.library'
+//}
+apply plugin: 'kotlin-android'
+
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
+//        if (isModule){
+//            applicationId "com.drwang.mvvmsample.common"
+//        }
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versioncode
+        versionName rootProject.ext.android.versionName
+        //ARouter配置
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -34,10 +46,10 @@ android {
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.2.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    api 'androidx.core:core-ktx:1.2.0'
+    api 'androidx.appcompat:appcompat:1.1.0'
+    api 'com.google.android.material:material:1.1.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -48,7 +60,12 @@ dependencies {
     api 'androidx.appcompat:appcompat:1.1.0'
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     //                                       👇 依赖协程核心库
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines"
     //                                       👇 依赖当前平台所对应的平台库
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines"
+    api 'androidx.multidex:multidex:2.0.1'
+    api 'com.github.zhaokaiqiang.klog:library:1.6.0'
+
+    api rootProject.ext.dependencies.arouterApi
+    annotationProcessor rootProject.ext.dependencies.arouterCompiler
 }

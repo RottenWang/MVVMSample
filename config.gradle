@@ -1,0 +1,25 @@
+ext {
+    isModule = true
+
+    android = [
+            applicationId    : "com.drwang.mvvmsample",
+            versioncode      : 1,
+            versionName      : "1.0.0",
+            buildToolsVersion: "29.0.3",
+
+            compileSdkVersion: 29,
+            minSdkVersion    : 21,
+            targetSdkVersion : 29,
+
+    ]
+
+    libsVersion = [
+            okhttpVersion = "4.9.0"
+    ]
+
+    dependencies = [
+            arouterApi     : "com.alibaba:arouter-api:1.5.0",
+            arouterCompiler: "com.alibaba:arouter-compiler:1.2.2",
+            okhttp         : "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
+    ]
+}
