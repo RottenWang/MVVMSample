@@ -6,7 +6,13 @@ if (isModule) {
     apply plugin: 'com.android.library'
 }
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
+kapt {
+//        if (isAppModule || isSubView)
+    arguments {
+        arg("moduleName", project.getName())
+    }
+}
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -62,5 +68,5 @@ android {
 
 dependencies {
     api project(':common')
-    annotationProcessor rootProject.ext.dependencies.arouterCompiler
+    kapt rootProject.ext.dependencies.arouterCompiler
 }

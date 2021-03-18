@@ -4,9 +4,11 @@ import android.animation.ObjectAnimator
 import android.animation.TypeEvaluator
 import android.graphics.PointF
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.lifecycle.Observer
+import com.alibaba.android.arouter.launcher.ARouter
 import com.drwang.common.base.BaseMVVMActivity
+import com.drwang.common.utils.RouteClass
+import com.drwang.common.utils.RouteField
 import com.drwang.livedata.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -22,6 +24,9 @@ class MainActivity : BaseMVVMActivity() {
         })
 //        viewModel.getName()
         viewModel.getName()
+        pv.setOnClickListener {
+            ARouter.getInstance().build(RouteClass.ME.module_me_me).withString(RouteField.name, "Test Name").navigation()
+        }
 //        val client = OkHttpClient().newBuilder().build()
 //        client.newCall(Request.Builder().build()).enqueue(object:Callback{
 //            override fun onFailure(call: Call, e: IOException) {
@@ -31,7 +36,7 @@ class MainActivity : BaseMVVMActivity() {
 //            override fun onResponse(call: Call, response: Response) {
 //            }
 //        })
-        var objectAnimator = ObjectAnimator.ofObject(pv, "pointF", evaluater(), PointF(300f,300f))
+        var objectAnimator = ObjectAnimator.ofObject(pv, "pointF", evaluater(), PointF(300f, 300f))
         objectAnimator.duration = 1000
         objectAnimator.start()
     }

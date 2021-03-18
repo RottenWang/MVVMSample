@@ -1,12 +1,13 @@
 package com.drwang.common.base
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.alibaba.android.arouter.launcher.ARouter
 
 abstract class BaseMVVMActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        ARouter.getInstance().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
         initView()
@@ -16,9 +17,9 @@ abstract class BaseMVVMActivity : AppCompatActivity() {
 //        Api.myApi.appLoginLiveData("18811112222", "112222").observe(this, Observer<MyResponse<Any>> { })
     }
 
-    open fun initData(){}
+    open fun initData() {}
 
-    open fun initView(){}
+    open fun initView() {}
 
     abstract fun getLayoutId(): Int
 

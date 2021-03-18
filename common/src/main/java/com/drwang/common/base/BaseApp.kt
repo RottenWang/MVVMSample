@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.os.Build
 import android.webkit.WebView
 import androidx.multidex.MultiDexApplication
+import com.alibaba.android.arouter.launcher.ARouter
 import com.drwang.common.net.ApiFactory
 import com.drwang.common.net.MyResponse
 import com.drwang.common.net.OkHttpFactory
@@ -34,10 +35,25 @@ abstract class BaseApp : MultiDexApplication() {
         super.onCreate()
         initWebView()
         if (applicationInfo.packageName == curProcessName()) {
-            appInit()
-            initCreate()
-            initNet()
+            initialize()
+
         }
+    }
+
+    private fun initialize() {
+        appInit()
+        initCreate()
+        initNet()
+        initARouter()
+    }
+
+    private fun initARouter() {
+        if (isApkInDebug()) {
+            ARouter.openLog()
+            ARouter.openDebug()
+            ARouter.printStackTrace()
+        }
+        ARouter.init(this)
     }
 
     private fun initCreate() {
