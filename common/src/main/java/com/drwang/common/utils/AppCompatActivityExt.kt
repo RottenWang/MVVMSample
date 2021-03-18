@@ -26,11 +26,7 @@ import java.util.regex.Pattern
 
 
 /**
- *  Creator : GG
- *  Time    : 2017/10/16
- *  Mail    : gg.jin.yu@gmail.com
- *  Explain : The `fragment` is added to the container view with id `frameId`. The operation is
- *            performed by the `fragmentManager`.
+ *
  */
 fun AppCompatActivity.replaceFragmentInActivity(fragment: Fragment, @IdRes frameId: Int) {
     supportFragmentManager.transact {

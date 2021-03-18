@@ -1,5 +1,6 @@
-package com.drwang.common
+package com.drwang.common.base
 
+import android.content.res.Configuration
 import android.os.Build
 import android.webkit.WebView
 import androidx.multidex.MultiDexApplication
@@ -10,9 +11,16 @@ import com.drwang.common.utils.*
 import okhttp3.Interceptor
 import okhttp3.ResponseBody.Companion.toResponseBody
 
-open class BaseApp : MultiDexApplication() {
+abstract class BaseApp : MultiDexApplication() {
     companion object {
         lateinit var instance: BaseApp
+    }
+
+    private val classInitList: ArrayList<Class<out BaseAppInit>> by lazy {
+        ArrayList<Class<out BaseAppInit>>()
+    }
+    private val appInitList: ArrayList<BaseAppInit> by lazy {
+        ArrayList<BaseAppInit>()
     }
 
     init {
@@ -26,7 +34,49 @@ open class BaseApp : MultiDexApplication() {
         super.onCreate()
         initWebView()
         if (applicationInfo.packageName == curProcessName()) {
+            appInit()
+            initCreate()
             initNet()
+        }
+    }
+
+    private fun initCreate() {
+        classInitList.forEach {
+            try {
+                val appInit = it.newInstance()
+                appInitList.add(appInit)
+                appInit.setApplication(this)
+                appInit.onCreate()
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
+    abstract fun appInit()
+
+    fun registerApplicationInit(classInit: Class<out BaseAppInit>) {
+        classInitList.add(classInit)
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        appInitList.forEach {
+            it.onTerminate()
+        }
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        appInitList.forEach {
+            it.onLowMemory()
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        appInitList.forEach {
+            it.configurationChanged(newConfig)
         }
     }
 
@@ -107,5 +157,9 @@ open class BaseApp : MultiDexApplication() {
                 WebView.setDataDirectorySuffix(processName)
             }
         }
+    }
+
+    fun getText(): String {
+        return "abcd"
     }
 }

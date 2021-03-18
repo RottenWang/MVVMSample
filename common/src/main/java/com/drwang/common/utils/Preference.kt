@@ -5,10 +5,7 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
- *  Creator : GG
- *  Time    : 2017/11/17
- *  Mail    : gg.jin.yu@gmail.com
- *  Explain :
+ *
  */
 class Preference<T>(val context: Context, val name: String, val default: T) : ReadWriteProperty<Any?, T> {
     constructor(context: Context,t:T):this(context,"",t){

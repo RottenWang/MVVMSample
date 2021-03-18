@@ -3,10 +3,7 @@ package com.drwang.common.utils
 import android.content.Context
 
 /**
- *  Creator : GG
- *  Time    : 2017/11/17
- *  Mail    : gg.jin.yu@gmail.com
- *  Explain :
+ *
  */
 object DelegatesExt {
 
