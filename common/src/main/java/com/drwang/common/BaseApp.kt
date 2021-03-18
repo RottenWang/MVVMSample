@@ -10,7 +10,7 @@ import com.drwang.common.utils.*
 import okhttp3.Interceptor
 import okhttp3.ResponseBody.Companion.toResponseBody
 
-class BaseApp : MultiDexApplication() {
+open class BaseApp : MultiDexApplication() {
     companion object {
         lateinit var instance: BaseApp
     }

@@ -1,4 +1,4 @@
-package com.drwang.module_me
+package com.drwang.module_me.activity
 
 import com.drwang.common.base.BaseMVVMActivity
 

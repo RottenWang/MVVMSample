@@ -1,4 +1,4 @@
-//判断是否单独打包运行
+//TODO 1 判断是否单独打包运行
 def isModule = rootProject.ext.isModule.toBoolean() == true
 if (isModule) {
     apply plugin: 'com.android.application'
@@ -14,7 +14,7 @@ android {
     buildToolsVersion
 
     defaultConfig {
-        if (isModule){
+        if (isModule) {
             applicationId "com.drwang.mvvmsample.me"
         }
         minSdkVersion rootProject.ext.android.minSdkVersion
@@ -45,7 +45,7 @@ android {
     sourceSets {
 
         main {
-            // 1.单独调试与集成调试时使用不同的 AndroidManifest.xml 文件
+            // Todo 2.单独调试与集成调试时使用不同的 AndroidManifest.xml 文件
             // 我们还可以根据不同工程配置不同的 Java 源代码、不同的 resource 资源文件等的
             if (isModule) {
 
@@ -55,6 +55,9 @@ android {
             }
         }
     }
+    //TODO 3 资源文件
+    resourcePrefix "${project.name}_"
+
 }
 
 dependencies {
