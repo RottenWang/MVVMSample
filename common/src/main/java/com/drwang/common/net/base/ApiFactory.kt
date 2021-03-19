@@ -1,4 +1,4 @@
-package com.drwang.common.net
+package com.drwang.common.net.base
 
 object ApiFactory : BaseApi() {
 
@@ -8,6 +8,7 @@ object ApiFactory : BaseApi() {
         if (myApi == null) {
             myApi =  mRetrofitBuilder.baseUrl("https://testerp.newrunway.com/").build().create(MyApi::class.java)
         }
-        return myApi?:mRetrofitBuilder.baseUrl("https://testerp.newrunway.com/").build().create(MyApi::class.java)
+        return myApi
+                ?:mRetrofitBuilder.baseUrl("https://testerp.newrunway.com/").build().create(MyApi::class.java)
     }
 }

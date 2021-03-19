@@ -1,4 +1,4 @@
-package com.drwang.common.net
+package com.drwang.common.net.base
 
 import androidx.lifecycle.LiveData
 import retrofit2.Call

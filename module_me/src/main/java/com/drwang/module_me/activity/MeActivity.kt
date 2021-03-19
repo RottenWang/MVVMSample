@@ -9,8 +9,10 @@ import com.drwang.common.utils.RouteClass
 import com.drwang.common.utils.RouteField
 import com.drwang.common.utils.toast
 import com.drwang.module_me.R
+import com.drwang.module_me.viewmodel.MeViewModel
+
 @Route(path = RouteClass.ME.module_me_me)
-class MeActivity : BaseMVVMActivity() {
+class MeActivity : BaseMVVMActivity<MeViewModel>() {
 
     @Autowired(name = RouteField.name)
     @JvmField

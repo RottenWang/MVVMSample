@@ -5,9 +5,9 @@ import android.os.Build
 import android.webkit.WebView
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
-import com.drwang.common.net.ApiFactory
-import com.drwang.common.net.MyResponse
-import com.drwang.common.net.OkHttpFactory
+import com.drwang.common.net.base.ApiFactory
+import com.drwang.common.net.base.MyResponse
+import com.drwang.common.net.base.OkHttpFactory
 import com.drwang.common.utils.*
 import okhttp3.Interceptor
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -134,7 +134,7 @@ abstract class BaseApp : MultiDexApplication() {
 //                       KLog.w("code", response.code())
                         if (response.code == 401) {
                             val originBody = response.body
-                            val response1 = MyResponse<Any>()
+                            val response1 = MyResponse<Any>(0,"",Any())
                             response1.code = response.code
                             response1.msg = "TOKEN ERROR"
                             this.body(GsonUtil.toJson(response1).toResponseBody(originBody?.contentType()))

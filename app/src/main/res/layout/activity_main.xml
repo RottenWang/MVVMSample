@@ -16,9 +16,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.drwang.livedata.view.ImageTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+<!--    <com.drwang.livedata.view.ImageTextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content" />-->
 
     <com.drwang.livedata.view.PointView
         android:id="@+id/pv"
@@ -26,7 +26,7 @@
         android:layout_height="300dp"
         android:layout_centerInParent="true" />
 
-    <com.drwang.livedata.view.FlipView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+<!--    <com.drwang.livedata.view.FlipView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 </RelativeLayout>

@@ -1,8 +1,5 @@
-package com.drwang.common.net
+package com.drwang.common.net.base
 
-import com.drwang.common.log.okHttpLog.HttpLoggingInterceptorM
-import com.drwang.common.log.okHttpLog.LogInterceptor
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

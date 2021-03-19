@@ -1,4 +1,4 @@
-package com.drwang.common.net
+package com.drwang.common.net.base
 
 import com.drwang.common.log.okHttpLog.HttpLoggingInterceptorM
 import com.drwang.common.log.okHttpLog.LogInterceptor

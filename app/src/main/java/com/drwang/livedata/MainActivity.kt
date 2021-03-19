@@ -7,23 +7,26 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import com.drwang.common.base.BaseMVVMActivity
+import com.drwang.common.model.User
+import com.drwang.common.net.result.UIState
 import com.drwang.common.utils.RouteClass
 import com.drwang.common.utils.RouteField
 import com.drwang.livedata.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseMVVMActivity() {
+class MainActivity : BaseMVVMActivity<MainViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel = getViewModel(MainViewModel::class.java)
         textView.text = "hello world"
-        viewModel.name.observe(this, object : Observer<String> {
-            override fun onChanged(t: String?) {
-                textView.text = t
+        mViewModel.name.observe(this, Observer<UIState<User>> {
+            if (it.success) {
+                textView.text = it.data?.userName
+            } else {
+                textView.text = it.errorMsg
             }
         })
 //        viewModel.getName()
-        viewModel.getName()
+        mViewModel.getName()
         pv.setOnClickListener {
             ARouter.getInstance().build(RouteClass.ME.module_me_me).withString(RouteField.name, "Test Name").navigation()
         }
