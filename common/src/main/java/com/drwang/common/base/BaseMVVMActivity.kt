@@ -6,14 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
 import com.drwang.common.ext.getVmClazz
 
-abstract class BaseMVVMActivity<VM : BaseViewModel> : AppCompatActivity() {
+abstract class BaseMVVMActivity<VM : BaseViewModel> : BaseActivity() {
 
 
     lateinit var mViewModel: VM
     override fun onCreate(savedInstanceState: Bundle?) {
-        ARouter.getInstance().inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutId())
         mViewModel = createViewModel()
         initObservable()
         initView()
@@ -32,8 +30,6 @@ abstract class BaseMVVMActivity<VM : BaseViewModel> : AppCompatActivity() {
     open fun initData() {}
 
     open fun initView() {}
-
-    abstract fun getLayoutId(): Int
 
     //一般不用这两个方法
     open fun showLoading(loadMsg: String? = "") {}
