@@ -6,11 +6,10 @@ import android.webkit.WebView
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
 import com.drwang.common.net.base.ApiFactory
-import com.drwang.common.net.base.MyResponse
 import com.drwang.common.net.base.OkHttpFactory
 import com.drwang.common.utils.*
+import com.tencent.mmkv.MMKV
 import okhttp3.Interceptor
-import okhttp3.ResponseBody.Companion.toResponseBody
 
 abstract class BaseApp : MultiDexApplication() {
     companion object {
@@ -28,11 +27,12 @@ abstract class BaseApp : MultiDexApplication() {
         instance = this
     }
 
-    var token: String by DelegatesExt.preference(this, AppConstant.TOKEN, "")
+    var token: String by DelegatesExt.preference(AppConstant.TOKEN, "")
     var APP_LOG_TAG = "MVVMSample"
     val beta: Boolean by lazy { true }
     override fun onCreate() {
         super.onCreate()
+        //为每个进程初始化一个webview的存储路径
         initWebView()
         if (applicationInfo.packageName == curProcessName()) {
             initialize()
@@ -45,6 +45,11 @@ abstract class BaseApp : MultiDexApplication() {
         initCreate()
         initNet()
         initARouter()
+        initMMKV()
+    }
+
+    private fun initMMKV() {
+        val initialize = MMKV.initialize(this)
     }
 
     private fun initARouter() {
@@ -153,7 +158,7 @@ abstract class BaseApp : MultiDexApplication() {
                             var isList = false
                             val authorization = response.headers.get("Authorization")
                             if (!authorization.isNullOrBlank()) {
-                                token = authorization.toString()
+                                MMKVUtils.token = authorization.toString()
                             }
                             val originBody = response.body
                             this.body(originBody)

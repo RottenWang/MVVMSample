@@ -14,12 +14,16 @@ ext {
     ]
 
     libsVersion = [
-            okhttpVersion = "4.9.0"
+            okhttpVersion = "4.9.0",
+            arouterVersion = "1.5.1",
+            arouterCompilerVersion = "1.5.1",
+            mmkvVersion = "1.2.7"
     ]
 
     dependencies = [
-            arouterApi     : "com.alibaba:arouter-api:1.5.1",
-            arouterCompiler: "com.alibaba:arouter-compiler:1.5.1",
-            okhttp         : "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
+            arouterApi     : "com.alibaba:arouter-api:$rootProject.arouterVersion",
+            arouterCompiler: "com.alibaba:arouter-compiler:$rootProject.arouterCompilerVersion",
+            okhttp         : "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion",
+            mmkv           : "com.tencent:mmkv-static:$rootProject.mmkvVersion"
     ]
 }

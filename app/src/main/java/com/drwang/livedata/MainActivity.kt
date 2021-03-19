@@ -7,15 +7,18 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import com.drwang.common.base.BaseMVVMActivity
+import com.drwang.common.ext.launch
 import com.drwang.common.ext.parseState
 import com.drwang.common.model.User
 import com.drwang.common.net.result.ResultState
 import com.drwang.common.net.result.UIState
+import com.drwang.common.utils.MMKVUtils
 import com.drwang.common.utils.RouteClass
 import com.drwang.common.utils.RouteField
+import com.drwang.common.utils.toast
 import com.drwang.livedata.viewmodel.MainViewModel
+import com.socks.library.KLog
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.toast
 
 class MainActivity : BaseMVVMActivity<MainViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +32,20 @@ class MainActivity : BaseMVVMActivity<MainViewModel>() {
         pv.setOnClickListener {
             ARouter.getInstance().build(RouteClass.ME.module_me_me).withString(RouteField.name, "Test Name").navigation()
         }
-//        val client = OkHttpClient().newBuilder().build()
+        mViewModel.launch({
+            for (i in 0..100) {
+                MMKVUtils.token = "${i.toString()}"
+                KLog.d("wangchen", "token = ${MMKVUtils.token}")
+            }
+
+        }, {
+
+        }, {
+
+        })
+
+
+        //        val client = OkHttpClient().newBuilder().build()
 //        client.newCall(Request.Builder().build()).enqueue(object:Callback{
 //            override fun onFailure(call: Call, e: IOException) {
 //

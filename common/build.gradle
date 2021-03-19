@@ -70,4 +70,5 @@ dependencies {
     api rootProject.ext.dependencies.arouterApi
     // 使用kapt插件
     kapt rootProject.ext.dependencies.arouterCompiler
+    api rootProject.ext.dependencies.mmkv
 }
