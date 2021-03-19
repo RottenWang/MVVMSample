@@ -31,4 +31,8 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
     override fun getLayoutId(): Int {
         return R.layout.activity_me
     }
+
+    override fun initObservable() {
+
+    }
 }

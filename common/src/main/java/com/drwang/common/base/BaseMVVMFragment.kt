@@ -1,26 +1,33 @@
 package com.drwang.common.base
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
 import com.drwang.common.ext.getVmClazz
 
-abstract class BaseMVVMActivity<VM : BaseViewModel> : AppCompatActivity() {
+abstract class BaseMVVMFragment<VM : BaseViewModel> : Fragment() {
 
 
     lateinit var mViewModel: VM
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         ARouter.getInstance().inject(this)
-        super.onCreate(savedInstanceState)
-        setContentView(getLayoutId())
         mViewModel = createViewModel()
         initObservable()
         initView()
         initData()
+    }
 
-        //LiveData 返回值的用法 直接observe
-//        Api.myApi.appLoginLiveData("18811112222", "112222").observe(this, Observer<MyResponse<Any>> { })
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(getLayoutId(), container, false)
     }
 
     abstract fun initObservable()

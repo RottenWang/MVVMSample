@@ -2,6 +2,8 @@ package com.drwang.common.ext
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.drwang.common.base.BaseMVVMActivity
+import com.drwang.common.base.BaseMVVMFragment
 import com.drwang.common.base.BaseViewModel
 import com.drwang.common.net.result.*
 import kotlinx.coroutines.*
@@ -20,27 +22,27 @@ import kotlinx.coroutines.*
  * @param onError 失败回调
  *
  */
-//fun <T> BaseVmActivity<*>.parseState(
-//    resultState: ResultState<T>,
-//    onSuccess: (T) -> Unit,
-//    onError: ((AppException) -> Unit)? = null,
-//    onLoading: (() -> Unit)? = null
-//) {
-//    when (resultState) {
-//        is ResultState.Loading -> {
-//            showLoading(resultState.loadingMessage)
-//            onLoading?.run { this }
-//        }
-//        is ResultState.Success -> {
-//            dismissLoading()
-//            onSuccess(resultState.data)
-//        }
-//        is ResultState.Error -> {
-//            dismissLoading()
-//            onError?.run { this(resultState.error) }
-//        }
-//    }
-//}
+fun <T> BaseMVVMActivity<*>.parseState(
+        resultState: ResultState<T>,
+        onSuccess: (T) -> Unit,
+        onError: ((AppException) -> Unit)? = null,
+        onLoading: (() -> Unit)? = null
+) {
+    when (resultState) {
+        is ResultState.Loading -> {
+            showLoading(resultState.loadingMessage)
+            onLoading?.invoke()
+        }
+        is ResultState.Success -> {
+            dismissLoading()
+            onSuccess(resultState.data)
+        }
+        is ResultState.Error -> {
+            dismissLoading()
+            onError?.run { this(resultState.error) }
+        }
+    }
+}
 
 /**
  * 显示页面状态，这里有个技巧，成功回调在第一个，其后两个带默认值的回调可省
@@ -50,27 +52,27 @@ import kotlinx.coroutines.*
  * @param onError 失败回调
  *
  */
-//fun <T> BaseVmFragment<*>.parseState(
-//    resultState: ResultState<T>,
-//    onSuccess: (T) -> Unit,
-//    onError: ((AppException) -> Unit)? = null,
-//    onLoading: (() -> Unit)? = null
-//) {
-//    when (resultState) {
-//        is ResultState.Loading -> {
-//            showLoading(resultState.loadingMessage)
-//            onLoading?.invoke()
-//        }
-//        is ResultState.Success -> {
-//            dismissLoading()
-//            onSuccess(resultState.data)
-//        }
-//        is ResultState.Error -> {
-//            dismissLoading()
-//            onError?.run { this(resultState.error) }
-//        }
-//    }
-//}
+fun <T> BaseMVVMFragment<*>.parseState(
+        resultState: ResultState<T>,
+        onSuccess: (T) -> Unit,
+        onError: ((AppException) -> Unit)? = null,
+        onLoading: (() -> Unit)? = null
+) {
+    when (resultState) {
+        is ResultState.Loading -> {
+            showLoading(resultState.loadingMessage)
+            onLoading?.invoke()
+        }
+        is ResultState.Success -> {
+            dismissLoading()
+            onSuccess(resultState.data)
+        }
+        is ResultState.Error -> {
+            dismissLoading()
+            onError?.run { this(resultState.error) }
+        }
+    }
+}
 
 
 /**
@@ -100,6 +102,15 @@ fun <T> BaseViewModel.request(
     }
 }
 
+//默认回调loading方法
+fun <T> BaseViewModel.requestShowLoading(
+        block: suspend () -> BaseResponse<T>,
+        resultState: MutableLiveData<ResultState<T>>,
+        loadingMessage: String = "请求网络中..."
+): Job {
+    return request(block, resultState, true, loadingMessage)
+}
+
 /**
  * net request 不校验请求结果数据是否是成功
  * @param block 请求体方法
@@ -108,10 +119,10 @@ fun <T> BaseViewModel.request(
  * @param loadingMessage 加载框提示内容
  */
 fun <T> BaseViewModel.requestNoCheck(
-    block: suspend () -> T,
-    resultState: MutableLiveData<ResultState<T>>,
-    isShowDialog: Boolean = false,
-    loadingMessage: String = "请求网络中..."
+        block: suspend () -> T,
+        resultState: MutableLiveData<ResultState<T>>,
+        isShowDialog: Boolean = false,
+        loadingMessage: String = "请求网络中..."
 ): Job {
     return viewModelScope.launch {
         runCatching {
@@ -155,7 +166,8 @@ fun <T> BaseViewModel.request(
 //            loadingChange.dismissDialog.postValue(false)
             runCatching {
                 //校验请求结果码是否正确，不正确会抛出异常走下面的onFailure
-                executeResponse(it) { t -> success(t)
+                executeResponse(it) { t ->
+                    success(t)
                 }
             }.onFailure { e ->
                 //打印错误消息
@@ -184,11 +196,11 @@ fun <T> BaseViewModel.request(
  * @param loadingMessage 加载框提示内容
  */
 fun <T> BaseViewModel.requestNoCheck(
-    block: suspend () -> T,
-    success: (T) -> Unit,
-    error: (AppException) -> Unit = {},
-    isShowDialog: Boolean = false,
-    loadingMessage: String = "请求网络中..."
+        block: suspend () -> T,
+        success: (T) -> Unit,
+        error: (AppException) -> Unit = {},
+        isShowDialog: Boolean = false,
+        loadingMessage: String = "请求网络中..."
 ): Job {
     //如果需要弹窗 通知Activity/fragment弹窗
 //    if (isShowDialog) loadingChange.showDialog.postValue(loadingMessage)
@@ -224,11 +236,20 @@ suspend fun <T> executeResponse(
             response.isSucces() -> {
                 success(response.getResponseData())
             }
+            //配合okhttp的Interceptor使用 暂时无用
+            response.getResponseCode() == 401 -> {
+//                KLog.d("wangchen","token error")
+                throw AppException(
+                        response.getResponseCode(),
+                        response.getResponseMsg(),
+                        response.getResponseMsg()
+                )
+            }
             else -> {
                 throw AppException(
-                    response.getResponseCode(),
-                    response.getResponseMsg(),
-                    response.getResponseMsg()
+                        response.getResponseCode(),
+                        response.getResponseMsg(),
+                        response.getResponseMsg()
                 )
             }
         }
@@ -236,23 +257,23 @@ suspend fun <T> executeResponse(
 }
 
 /**
- *  调用携程
+ *  调用协程
  * @param block 操作耗时操作任务
  * @param success 成功回调
  * @param error 失败回调 可不给
  */
 fun <T> BaseViewModel.launch(
-    block: () -> T,
-    success: (T) -> Unit,
-    error: (Throwable) -> Unit = {}
+        block: () -> T,
+        success: (T) -> Unit,
+        error: (Throwable) -> Unit = {}
 ) {
     viewModelScope.launch {
         kotlin.runCatching {
             withContext(Dispatchers.IO) {
                 block()
             }
-        }.onSuccess {
-            success(it)
+        }.onSuccess { i ->
+            success(i)
         }.onFailure {
             error(it)
         }

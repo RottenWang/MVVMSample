@@ -7,26 +7,25 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import com.drwang.common.base.BaseMVVMActivity
+import com.drwang.common.ext.parseState
 import com.drwang.common.model.User
+import com.drwang.common.net.result.ResultState
 import com.drwang.common.net.result.UIState
 import com.drwang.common.utils.RouteClass
 import com.drwang.common.utils.RouteField
 import com.drwang.livedata.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.toast
 
 class MainActivity : BaseMVVMActivity<MainViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         textView.text = "hello world"
-        mViewModel.name.observe(this, Observer<UIState<User>> {
-            if (it.success) {
-                textView.text = it.data?.userName
-            } else {
-                textView.text = it.errorMsg
-            }
-        })
+
 //        viewModel.getName()
-        mViewModel.getName()
+//        mViewModel.getName()
+//        mViewModel.getName()
+        mViewModel.login()
         pv.setOnClickListener {
             ARouter.getInstance().build(RouteClass.ME.module_me_me).withString(RouteField.name, "Test Name").navigation()
         }
@@ -55,6 +54,25 @@ class MainActivity : BaseMVVMActivity<MainViewModel>() {
             return PointF(x, y)
         }
 
+    }
+
+    override fun initObservable() {
+        mViewModel.name.observe(this, Observer<UIState<User>> {
+            if (it.success) {
+                textView.text = it.data?.userName
+            } else {
+                textView.text = it.errorMsg
+            }
+        })
+        mViewModel.name2.observe(this, Observer<ResultState<User>> { it ->
+            parseState(it, {
+                textView.text = it.userName
+            }, {
+                textView.text = it.errorMsg
+            }, {
+                toast("loading")
+            })
+        })
     }
 
 }

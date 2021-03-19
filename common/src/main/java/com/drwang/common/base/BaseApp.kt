@@ -133,11 +133,14 @@ abstract class BaseApp : MultiDexApplication() {
                     .apply {
 //                       KLog.w("code", response.code())
                         if (response.code == 401) {
-                            val originBody = response.body
-                            val response1 = MyResponse<Any>(0,"",Any())
-                            response1.code = response.code
-                            response1.msg = "TOKEN ERROR"
-                            this.body(GsonUtil.toJson(response1).toResponseBody(originBody?.contentType()))
+                            //处理token问题
+                            //重新创建一个新的responseBody 并返回 需要将code改为200
+//                            val originBody = response.body
+//                            val response1 = MyResponse<Any>(401, "token error", Any())
+//                            response1.code = response.code
+//                            response1.msg = "TOKEN ERROR"
+//                            this.body(GsonUtil.toJson(response1).toResponseBody(originBody?.contentType()))
+//                            this.code(200)
                             //deprecated
 //                                this.body(ResponseBody.create(originBody?.contentType(), GsonUtil.toJson(response1)))
 //                                Handler(Looper.getMainLooper()).post {
@@ -157,6 +160,7 @@ abstract class BaseApp : MultiDexApplication() {
                         }
                     }
                     .apply {
+
 //                        KLog.w("code----", response.code)
 //                        this.code(if (response.code in 400..500) 200 else response.code)
                     }
