@@ -71,4 +71,5 @@ dependencies {
     // 使用kapt插件
     kapt rootProject.ext.dependencies.arouterCompiler
     api rootProject.ext.dependencies.mmkv
+    api rootProject.ext.dependencies.bottomNavigationViewEx
 }
