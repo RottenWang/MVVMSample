@@ -9,15 +9,14 @@ import android.os.RemoteException;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.drwang.module_me.com.example.aidl_server.model.Person;
-
 import java.util.List;
 
 
 public abstract class BinderObj extends Binder implements PersonManager {
-    public static final String DESCRIPTOR = "com.drwang.aidl_server.aidl";
+    public static final String DESCRIPTOR = "com.drwang.aidl_server.aidl.PersonManager";
     public static final int TRANSAVTION_getPerson = IBinder.FIRST_CALL_TRANSACTION;
     public static final int TRANSAVTION_addPerson = IBinder.FIRST_CALL_TRANSACTION + 1;
+    public static final int TRANSAVTION_getInt = IBinder.FIRST_CALL_TRANSACTION + 2;
 
     public static PersonManager asInterface(IBinder mIBinder) {
         IInterface iInterface = mIBinder.queryLocalInterface(DESCRIPTOR);
@@ -26,6 +25,10 @@ public abstract class BinderObj extends Binder implements PersonManager {
         }
         return new Proxy(mIBinder);
 
+    }
+
+    public BinderObj() {
+        attachInterface(this, DESCRIPTOR);
     }
 
     @Override
@@ -40,18 +43,27 @@ public abstract class BinderObj extends Binder implements PersonManager {
                 reply.writeNoException();
                 reply.writeTypedList(result);
                 return true;
+            case TRANSAVTION_getInt:
+                data.enforceInterface(DESCRIPTOR);
+                int ints = getInt();
+                reply.writeInt(ints);
+                reply.writeNoException();
+                return true;
             case TRANSAVTION_addPerson:
                 data.enforceInterface(DESCRIPTOR);
                 Person arg0 = null;
                 if (data.readInt() != 0) {
                     arg0 = Person.CREATOR.createFromParcel(data);
+                }else {
+                    arg0 = null;
                 }
                 this.addPerson(arg0);
-                reply.writeNoException();
+               reply.writeNoException();
                 return true;
         }
         return super.onTransact(code, data, reply, flags);
     }
+
     @Override
     public IBinder asBinder() {
         return this;

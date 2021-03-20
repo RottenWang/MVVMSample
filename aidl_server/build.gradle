@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         if (isModule) {
-            applicationId "com.drwang.mvvmsample.aidlserver"
+            applicationId "com.drwang.aidl_server"
         }
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.drwang.aidi_client">
+
     <application
         android:name=".AIDLClientApp"
         android:allowBackup="true"
@@ -16,6 +17,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <service
+            android:name="com.drwang.aidl_server.aidl.ServerService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=".remote">
+            <intent-filter>
+                <action android:name="com.drwang.aidl_server.serverservicetest" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>

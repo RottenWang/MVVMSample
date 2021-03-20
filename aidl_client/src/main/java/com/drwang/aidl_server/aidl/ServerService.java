@@ -6,8 +6,6 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 
-import com.socks.library.KLog;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +27,6 @@ public class ServerService extends Service {
         person.name = "zhangsan";
         person.age = 3;
         mPeople.add(person);
-        KLog.d("wangchen","server start");
     }
 
     private BinderObj mStub = new BinderObj() {
@@ -51,10 +48,4 @@ public class ServerService extends Service {
             return 3;
         }
     };
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        KLog.d("wangchen","server destory");
-    }
 }

@@ -18,10 +18,11 @@
         </activity>
     <service android:name=".aidl.ServerService"
         android:enabled="true"
+        android:process=":server"
         android:exported="true">
-        <intent-filter >
-            <action android:name="com.drwang.aidl_server.serverservice"/>
-        </intent-filter>
+<!--        <intent-filter >-->
+<!--            <action android:name="com.drwang.aidl_server.serverservice"/>-->
+<!--        </intent-filter>-->
         </service>
 
     </application>
