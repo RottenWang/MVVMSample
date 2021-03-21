@@ -1,4 +1,4 @@
-package com.drwang.livedata.view
+package com.drwang.module_me.view
 
 import android.content.Context
 import android.content.res.Resources
@@ -6,7 +6,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
-import com.drwang.livedata.R
+import com.drwang.module_me.R
 
 class ImageTextView(context: Context, attributes: AttributeSet?) : View(context, attributes) {
 

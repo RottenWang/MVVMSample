@@ -22,9 +22,7 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         toast(name)
-        textview.setOnClickListener {
 
-        }
     }
 
     override fun initView() {
