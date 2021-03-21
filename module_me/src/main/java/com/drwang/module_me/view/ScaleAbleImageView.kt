@@ -11,8 +11,7 @@ import android.widget.OverScroller
 import androidx.core.view.GestureDetectorCompat
 import com.drwang.module_me.R
 
-class ScaleAbleImageView : View, GestureDetector.OnGestureListener,
-    GestureDetector.OnDoubleTapListener, Runnable {
+class ScaleAbleImageView : View {
 
 
     val bitmap: Bitmap by lazy {
@@ -32,14 +31,23 @@ class ScaleAbleImageView : View, GestureDetector.OnGestureListener,
     val scroller by lazy {
         OverScroller(context)
     }
+
     val oa by lazy {
         ObjectAnimator.ofFloat(this@ScaleAbleImageView, "Fraction", 0f, 1f)
     }
     val detector: GestureDetectorCompat by lazy {
-        GestureDetectorCompat(context, this).apply {
-            setOnDoubleTapListener(this@ScaleAbleImageView)
+        GestureDetectorCompat(context, TapGestureDetector(context)).apply {
         }
     }
+    private fun fixOffsets() {
+
+        //设定边界
+        currX = Math.max(-minWidthTrans,currX)
+        currX = Math.min(minWidthTrans,currX)
+        currY = Math.max(-minHeightTrans,currY)
+        currY = Math.min(minHeightTrans,currY)
+    }
+
     var fraction: Float = 0f
         get() {
             return field
@@ -97,81 +105,59 @@ class ScaleAbleImageView : View, GestureDetector.OnGestureListener,
         canvas.drawBitmap(bitmap, transX, transY, paint)
     }
 
-    override fun onShowPress(e: MotionEvent?) {
 
-    }
-
-    override fun onSingleTapUp(e: MotionEvent?): Boolean {
-        return false;
-    }
-
-    override fun onDown(e: MotionEvent?): Boolean {
-        return true
-    }
-
-    override fun onFling(
-        e1: MotionEvent?,
-        e2: MotionEvent?,
-        velocityX: Float,
-        velocityY: Float
-    ): Boolean {
-        if (isBig){
-            scroller.fling(currX.toInt(),currY.toInt(),velocityX.toInt(),velocityY.toInt(),-minWidthTrans.toInt(),minWidthTrans.toInt(),-minHeightTrans.toInt(),minHeightTrans.toInt() ,100,100)
-            postOnAnimation(this@ScaleAbleImageView)
+    inner class MyRunable :Runnable{
+        override fun run() {
+            if (scroller.computeScrollOffset()){
+                currX = scroller.currX.toFloat()
+                currY = scroller.currY.toFloat()
+                invalidate()
+                postOnAnimation(this)
+            }
         }
-        return false
     }
+    private val runnable by lazy { MyRunable() }
+    inner class TapGestureDetector(context: Context) : GestureDetector.SimpleOnGestureListener() {
 
-    override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
-        if (isBig) {
-            currX -= distanceX
-            currY -= distanceY
-            fixOffsets()
+
+        override fun onDown(e: MotionEvent?): Boolean {
+            return true
         }
-        invalidate()
-        return false
-    }
 
-    private fun fixOffsets() {
-
-        //设定边界
-        currX = Math.max(-minWidthTrans,currX)
-        currX = Math.min(minWidthTrans,currX)
-        currY = Math.max(-minHeightTrans,currY)
-        currY = Math.min(minHeightTrans,currY)
-    }
-
-    override fun onLongPress(e: MotionEvent?) {
-    }
-
-    override fun onDoubleTap(e: MotionEvent): Boolean {
-        isBig = !isBig
-        if (isBig) {
-            currX = (e.x -width/2) - (e.x -width/2) * bigScale / smallScale
-            currY= (e.y -height/2) - (e.y-height/2) * bigScale / smallScale
-            fixOffsets()
-            oa.start()
-        } else {
-            oa.reverse()
+        override fun onFling(
+            e1: MotionEvent?,
+            e2: MotionEvent?,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
+            if (isBig){
+                scroller.fling(currX.toInt(),currY.toInt(),velocityX.toInt(),velocityY.toInt(),-minWidthTrans.toInt(),minWidthTrans.toInt(),-minHeightTrans.toInt(),minHeightTrans.toInt() ,100,100)
+                postOnAnimation(runnable)
+            }
+            return false
         }
-        return false
 
-    }
-
-    override fun onDoubleTapEvent(e: MotionEvent?): Boolean {
-        return false
-    }
-
-    override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-        return false
-    }
-
-    override fun run() {
-        if (scroller.computeScrollOffset()){
-            currX = scroller.currX.toFloat()
-            currY = scroller.currY.toFloat()
+        override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+            if (isBig) {
+                currX -= distanceX
+                currY -= distanceY
+                fixOffsets()
+            }
             invalidate()
-            postOnAnimation(this)
+            return false
+        }
+        override fun onDoubleTap(e: MotionEvent): Boolean {
+            isBig = !isBig
+            if (isBig) {
+                currX = (e.x -width/2) - (e.x -width/2) * bigScale / smallScale
+                currY= (e.y -height/2) - (e.y-height/2) * bigScale / smallScale
+                fixOffsets()
+                oa.start()
+            } else {
+                oa.reverse()
+            }
+            return false
+
         }
     }
 }
