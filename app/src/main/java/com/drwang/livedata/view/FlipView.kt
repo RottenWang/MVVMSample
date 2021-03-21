@@ -8,6 +8,13 @@ import com.drwang.livedata.R
 
 class FlipView : View {
 
+
+    companion object {
+        const val TEST_STRING = "ABC"
+        fun getString(): String {
+            return TEST_STRING
+        }
+    }
     constructor(context: Context) : super(context, null) {
         init()
     }

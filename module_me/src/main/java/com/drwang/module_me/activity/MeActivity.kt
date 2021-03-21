@@ -10,6 +10,7 @@ import com.drwang.common.utils.RouteField
 import com.drwang.common.utils.toast
 import com.drwang.module_me.R
 import com.drwang.module_me.viewmodel.MeViewModel
+import kotlinx.android.synthetic.main.module_me_activity_me.*
 
 @Route(path = RouteClass.ME.module_me_me)
 class MeActivity : BaseMVVMActivity<MeViewModel>() {
@@ -21,7 +22,9 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         toast(name)
+        textview.setOnClickListener {
 
+        }
     }
 
     override fun initView() {
@@ -29,7 +32,7 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_me
+        return R.layout.module_me_activity_me
     }
 
     override fun initObservable() {

@@ -2,5 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <TextView
+        android:layout_width="@dimen/dp_300"
+        android:id="@+id/textview"
+        android:layout_height="@dimen/dp_300"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

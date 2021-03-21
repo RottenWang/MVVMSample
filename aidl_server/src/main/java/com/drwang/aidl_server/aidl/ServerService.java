@@ -23,6 +23,11 @@ public class ServerService extends Service {
     }
 
     @Override
+    public void onRebind(Intent intent) {
+        super.onRebind(intent);
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         Person person = new Person();

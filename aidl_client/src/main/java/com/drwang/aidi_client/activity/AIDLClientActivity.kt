@@ -33,7 +33,6 @@ class AIDLClientActivity : BaseActivity() {
         // 直接指定类 可以访问
 //        val intent = Intent(this,ServerService::class.java)
 
-
         val intent = Intent()
         intent.setComponent(ComponentName("com.drwang.aidl_server","com.drwang.aidl_server.aidl.ServerService"))
 //        intent.setClassName("com.drwang.aidl_server","com.drwang.aidl_server.ServerService")
