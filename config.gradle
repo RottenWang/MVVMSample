@@ -1,5 +1,5 @@
 ext {
-    isModule = true
+    isModule = false
 
     android = [
             applicationId    : "com.drwang.mvvmsample",
@@ -18,7 +18,8 @@ ext {
             arouterVersion = "1.5.1",
             arouterCompilerVersion = "1.5.1",
             mmkvVersion = "1.2.7",
-            bottomNavigationViewExVersion = "2.0.4"
+            bottomNavigationViewExVersion = "2.0.4",
+            eventBusVersion = "3.2.0"
     ]
 
     dependencies = [
@@ -26,6 +27,7 @@ ext {
             arouterCompiler       : "com.alibaba:arouter-compiler:$rootProject.arouterCompilerVersion",
             okhttp                : "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion",
             mmkv                  : "com.tencent:mmkv-static:$rootProject.mmkvVersion",
-            bottomNavigationViewEx: "com.github.ittianyu:BottomNavigationViewEx:$rootProject.bottomNavigationViewExVersion"
+            bottomNavigationViewEx: "com.github.ittianyu:BottomNavigationViewEx:$rootProject.bottomNavigationViewExVersion",
+            eventBus              : "org.greenrobot:eventbus:$rootProject.eventBusVersion"
     ]
 }

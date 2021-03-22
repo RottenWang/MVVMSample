@@ -20,6 +20,7 @@ abstract class BaseMVVMFragment<VM : BaseViewModel> : Fragment() {
         initObservable()
         initView()
         initData()
+        lifecycle
     }
 
     override fun onCreateView(

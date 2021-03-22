@@ -4,5 +4,6 @@ object RouteClass {
 
     object ME {
         const val module_me_me = "/module_me/me"
+        const val meservice = "/meservice/meservice"
     }
 }

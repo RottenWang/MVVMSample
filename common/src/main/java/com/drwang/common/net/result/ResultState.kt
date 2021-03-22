@@ -1,6 +1,7 @@
 package com.drwang.common.net.result
 
 import androidx.lifecycle.MutableLiveData
+import com.socks.library.KLog
 
 /**
  * 作者　: hegaojian
@@ -26,6 +27,7 @@ sealed class ResultState<out T> {
 fun <T> MutableLiveData<ResultState<T>>.paresResult(result: BaseResponse<T>) {
     value = when {
         result.isSucces() -> {
+            KLog.d("wangchen","onAppSuccess")
             ResultState.onAppSuccess(result.getResponseData())
         }
         else -> {

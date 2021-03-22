@@ -72,4 +72,6 @@ dependencies {
     kapt rootProject.ext.dependencies.arouterCompiler
     api rootProject.ext.dependencies.mmkv
     api rootProject.ext.dependencies.bottomNavigationViewEx
+    api rootProject.ext.dependencies.eventBus
+    api 'com.jeremyliao:live-event-bus-x:1.7.3'
 }

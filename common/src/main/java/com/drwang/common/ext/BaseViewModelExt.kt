@@ -6,6 +6,7 @@ import com.drwang.common.base.BaseMVVMActivity
 import com.drwang.common.base.BaseMVVMFragment
 import com.drwang.common.base.BaseViewModel
 import com.drwang.common.net.result.*
+import com.socks.library.KLog
 import kotlinx.coroutines.*
 
 /**
@@ -90,10 +91,12 @@ fun <T> BaseViewModel.request(
 ): Job {
     return viewModelScope.launch {
         runCatching {
+            KLog.d("wangchen","request begin")
             if (isShowDialog) resultState.value = ResultState.onAppLoading(loadingMessage)
             //请求体
             block()
         }.onSuccess {
+            KLog.d("wangchen","request success")
             resultState.paresResult(it)
         }.onFailure {
             it.message?.loge()
