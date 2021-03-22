@@ -12,4 +12,8 @@ interface TestIInterface {
      void addPerson(in Person mPerson);
         List<Person> getPersonList();
         int getInt();
+        List<Person> abc(out Person mPerson);
+        List<Person> abcd(inout  Person mPerson);
+        oneway void abcde(in  Person mPerson);
+
 }
