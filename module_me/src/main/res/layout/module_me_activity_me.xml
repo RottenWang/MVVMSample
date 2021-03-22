@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.drwang.module_me.view.ScaleAbleImageView
+    <com.drwang.module_me.view.MultiTouchView1
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>
