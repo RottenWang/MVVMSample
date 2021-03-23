@@ -39,7 +39,8 @@ class MainActivity : BaseMVVMActivity<MainViewModel>() {
         }
 
         bottomNavigationView.interceptLongClick(R.id.menu_main, R.id.menu_project, R.id.menu_system, R.id.menu_public, R.id.menu_me)
-        mViewModel.login()
+//        mViewModel.login()
+        mViewModel.getName()
 
     }
 
@@ -77,7 +78,7 @@ class MainActivity : BaseMVVMActivity<MainViewModel>() {
 
     override fun onPause() {
         super.onPause()
-        mViewModel.login()
+//        mViewModel.login()
     }
 
     override fun initObservable() {
@@ -90,6 +91,7 @@ class MainActivity : BaseMVVMActivity<MainViewModel>() {
 //        })
         mViewModel.name.observe(this, Observer<UIState<User>> {
             if (it.success) {
+                KLog.d("wangchen","success ${it.data}")
 //                textView.text = it.data?.userName
             } else {
 //                textView.text = it.errorMsg

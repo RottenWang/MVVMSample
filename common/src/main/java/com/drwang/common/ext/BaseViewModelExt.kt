@@ -25,7 +25,7 @@ import kotlinx.coroutines.*
  */
 fun <T> BaseMVVMActivity<*>.parseState(
         resultState: ResultState<T>,
-        onSuccess: (T) -> Unit,
+        onSuccess: (T?) -> Unit,
         onError: ((AppException) -> Unit)? = null,
         onLoading: (() -> Unit)? = null
 ) {
@@ -55,7 +55,7 @@ fun <T> BaseMVVMActivity<*>.parseState(
  */
 fun <T> BaseMVVMFragment<*>.parseState(
         resultState: ResultState<T>,
-        onSuccess: (T) -> Unit,
+        onSuccess: (T?) -> Unit,
         onError: ((AppException) -> Unit)? = null,
         onLoading: (() -> Unit)? = null
 ) {
@@ -151,7 +151,7 @@ fun <T> BaseViewModel.requestNoCheck(
  */
 fun <T> BaseViewModel.request(
         block: suspend () -> BaseResponse<T>,
-        success: (T) -> Unit,
+        success: (T?) -> Unit,
         error: (AppException) -> Unit = {},
         isShowDialog: Boolean = false,
         loadingMessage: String = "请求网络中..."
@@ -232,7 +232,7 @@ fun <T> BaseViewModel.requestNoCheck(
  */
 suspend fun <T> executeResponse(
         response: BaseResponse<T>,
-        success: suspend CoroutineScope.(T) -> Unit
+        success: suspend CoroutineScope.(T?) -> Unit
 ) {
     coroutineScope {
         when {

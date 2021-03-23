@@ -6,10 +6,12 @@ import android.webkit.WebView
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
 import com.drwang.common.net.base.ApiFactory
+import com.drwang.common.net.base.MyResponse
 import com.drwang.common.net.base.OkHttpFactory
 import com.drwang.common.utils.*
 import com.tencent.mmkv.MMKV
 import okhttp3.Interceptor
+import okhttp3.ResponseBody.Companion.toResponseBody
 
 abstract class BaseApp : MultiDexApplication() {
     companion object {
@@ -141,10 +143,11 @@ abstract class BaseApp : MultiDexApplication() {
                             //处理token问题
                             //重新创建一个新的responseBody 并返回 需要将code改为200
 //                            val originBody = response.body
-//                            val response1 = MyResponse<Any>(401, "token error", Any())
-//                            response1.code = response.code
-//                            response1.msg = "TOKEN ERROR"
-//                            this.body(GsonUtil.toJson(response1).toResponseBody(originBody?.contentType()))
+//                            val response1 = MyResponse<Any>(1, "hahahah", null)
+//                            response1.code = 1
+//                            response1.msg = "hahahah"
+//                            val toJson = GsonUtil.toJson(response1)
+//                            this.body(toJson.toResponseBody(originBody?.contentType()))
 //                            this.code(200)
                             //deprecated
 //                                this.body(ResponseBody.create(originBody?.contentType(), GsonUtil.toJson(response1)))
@@ -153,7 +156,7 @@ abstract class BaseApp : MultiDexApplication() {
 //                                    LoadUtils.hidden()
 //                                    LoginUtil.clearUserInfo(this@App)
 //                                }
-                            return@apply
+//                            return@apply
                         } else {
                             var isList = false
                             val authorization = response.headers.get("Authorization")
@@ -164,11 +167,11 @@ abstract class BaseApp : MultiDexApplication() {
                             this.body(originBody)
                         }
                     }
-                    .apply {
-
-//                        KLog.w("code----", response.code)
-//                        this.code(if (response.code in 400..500) 200 else response.code)
-                    }
+//                    .apply {
+//
+////                        KLog.w("code----", response.code)
+////                        this.code(if (response.code in 400..500) 200 else response.code)
+//                    }
                     .build()
         }, enableLog = beta, tag = APP_LOG_TAG)
 

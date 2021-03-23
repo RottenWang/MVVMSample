@@ -19,7 +19,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
         job?.cancel()
         job = request({ ApiFactory.getMyApi().appLogin("18811112222", "112222") }, {
             //success
-            name.value = it.getSuccessStateData();
+            name.value =it.getSuccessStateData()
         }, {
             name.value = it.getFailedData()
 
