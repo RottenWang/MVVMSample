@@ -64,4 +64,9 @@ android {
 dependencies {
     api project(':common')
     kapt rootProject.ext.dependencies.arouterCompiler
+    def room_version = "2.2.5"
+    // For Kotlin use kapt instead of annotationProcessor
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 }
