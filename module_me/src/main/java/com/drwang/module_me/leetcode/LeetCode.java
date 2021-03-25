@@ -415,7 +415,8 @@ public class LeetCode {
         }
         return ints;
     }
-//https://leetcode-cn.com/problems/create-target-array-in-the-given-order/
+
+    //https://leetcode-cn.com/problems/create-target-array-in-the-given-order/
     public int[] createTargetArray(int[] nums, int[] index) {
         int[] ints = new int[index.length];
         for (int i = 0; i < index.length; i++) {
@@ -423,8 +424,8 @@ public class LeetCode {
             int num = nums[i];
 //            [0,1,2,0,0];
 //            [0,0,1,2,0]
-            System.arraycopy(ints, position, ints, position + 1, ints.length - position-1);
-            Arrays.fill(ints, position,position+1,num );
+            System.arraycopy(ints, position, ints, position + 1, ints.length - position - 1);
+            Arrays.fill(ints, position, position + 1, num);
         }
         return ints;
     }
@@ -433,11 +434,11 @@ public class LeetCode {
     public int[] smallerNumbersThanCurrent(int[] nums) {
         int[] ints = new int[nums.length];
         for (int i = 0; i < nums.length; i++) {
-            for (int j = 1+i; j < nums.length; j++) {
-                if (nums[i]> nums[j]){
-                    ints[i]+=1;
-                }else if (nums[i]< nums[j]){
-                    ints[j]+=1;
+            for (int j = 1 + i; j < nums.length; j++) {
+                if (nums[i] > nums[j]) {
+                    ints[i] += 1;
+                } else if (nums[i] < nums[j]) {
+                    ints[j] += 1;
                 }
             }
         }
@@ -449,22 +450,84 @@ public class LeetCode {
         int current = 0;
         char[] chars = s.toCharArray();
         for (int i = 0; i < chars.length; i++) {
-            if (chars[i] == '('){
+            if (chars[i] == '(') {
                 current++;
-                max = max > current? max :current;
+                max = max > current ? max : current;
             }
-            if (chars[i]==')'){
+            if (chars[i] == ')') {
                 current--;
             }
         }
         return max;
     }
+
     //https://leetcode-cn.com/problems/minimum-time-visiting-all-points/
     public int minTimeToVisitAllPoints(int[][] points) {
         int step = 0;
-        for (int i = 0; i < points.length -1; i++) {
-            step+= Math.max(Math.abs(points[i][0]- points[i+1][0]),Math.abs(points[i][1]- points[i+1][1]));
+        for (int i = 0; i < points.length - 1; i++) {
+            step += Math.max(Math.abs(points[i][0] - points[i + 1][0]), Math.abs(points[i][1] - points[i + 1][1]));
         }
         return step;
+    }
+
+    // TODO https://leetcode-cn.com/problems/check-if-two-string-arrays-are-equivalent/solution/javayi-xing-dai-ma-shuang-bai-by-geguofeng/
+    public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+        return false;
+    }
+
+    //https://leetcode-cn.com/problems/find-numbers-with-even-number-of-digits/
+    public int findNumbers(int[] nums) {
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int i1 = nums[i] / 10;
+            int i2 = nums[i] / 100;
+            if ((i1 > 0 && i1 < 10) || (i2 >= 10 && i2 < 100) || i2 == 1000) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    //https://leetcode-cn.com/problems/convert-binary-number-in-a-linked-list-to-integer/comments/
+    public int getDecimalValue(ListNode head) {
+        int count = 0;
+        if (head.val != 0) {
+            count = 1;
+        }
+        while (head.next != null) {
+            head = head.next;
+            count *= 2;
+            if (head.val != 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+//https://leetcode-cn.com/problems/find-the-highest-altitude/submissions/
+
+    public int largestAltitude(int[] gain) {
+        //海拔从0开始 所以默认最大值是0
+        int max = 0;
+        int current = 0;
+        for (int i = 0; i < gain.length; i++) {
+            int value = gain[i] + current;
+            gain[i] = value;
+            max = Math.max(max, value);
+            current = gain[i];
+        }
+        return max;
+    }
+//https://leetcode-cn.com/problems/matrix-diagonal-sum/
+    public int diagonalSum(int[][] mat) {
+        boolean isEven = mat[0].length % 2 == 0;
+        int count = 0;
+        for (int i = 0, j = mat.length-1; i < mat.length && j > 0; i++, j--) {
+            count += mat[i][i];
+            if (j + i == mat.length - 1) {
+                count += mat[j][j];
+            }
+        }
+        count-=mat[mat.length/2][mat.length/2];
+        return count;
     }
 }
