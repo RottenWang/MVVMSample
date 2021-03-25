@@ -415,4 +415,56 @@ public class LeetCode {
         }
         return ints;
     }
+//https://leetcode-cn.com/problems/create-target-array-in-the-given-order/
+    public int[] createTargetArray(int[] nums, int[] index) {
+        int[] ints = new int[index.length];
+        for (int i = 0; i < index.length; i++) {
+            int position = index[i];
+            int num = nums[i];
+//            [0,1,2,0,0];
+//            [0,0,1,2,0]
+            System.arraycopy(ints, position, ints, position + 1, ints.length - position-1);
+            Arrays.fill(ints, position,position+1,num );
+        }
+        return ints;
+    }
+
+    //https://leetcode-cn.com/problems/how-many-numbers-are-smaller-than-the-current-number/
+    public int[] smallerNumbersThanCurrent(int[] nums) {
+        int[] ints = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 1+i; j < nums.length; j++) {
+                if (nums[i]> nums[j]){
+                    ints[i]+=1;
+                }else if (nums[i]< nums[j]){
+                    ints[j]+=1;
+                }
+            }
+        }
+        return ints;
+    }
+
+    public int maxDepth(String s) {
+        int max = 0;
+        int current = 0;
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '('){
+                current++;
+                max = max > current? max :current;
+            }
+            if (chars[i]==')'){
+                current--;
+            }
+        }
+        return max;
+    }
+    //https://leetcode-cn.com/problems/minimum-time-visiting-all-points/
+    public int minTimeToVisitAllPoints(int[][] points) {
+        int step = 0;
+        for (int i = 0; i < points.length -1; i++) {
+            step+= Math.max(Math.abs(points[i][0]- points[i+1][0]),Math.abs(points[i][1]- points[i+1][1]));
+        }
+        return step;
+    }
 }
