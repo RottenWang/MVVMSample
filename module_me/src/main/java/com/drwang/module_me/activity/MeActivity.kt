@@ -38,7 +38,8 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
 //        EventBus.getDefault().post(MyEvent().apply { name = "testtest" })
 //        LiveEventBus.get("test").post(MyEvent().apply { name = "hahahahah" })
 //        doAsync {
-            val personDb = Room.databaseBuilder(applicationContext, PersonDataBase::class.java, "persondb").build()
+            val personDb = Room.databaseBuilder(applicationContext, PersonDataBase::class.java, "persondb")
+                    .build()
             val personDAO = personDb.personDAO()
         doAsync {
             personDAO.insertPerson(Person(3,"haha",30,"nima"))
