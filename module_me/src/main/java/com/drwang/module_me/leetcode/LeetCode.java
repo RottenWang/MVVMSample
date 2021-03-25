@@ -517,17 +517,28 @@ public class LeetCode {
         }
         return max;
     }
-//https://leetcode-cn.com/problems/matrix-diagonal-sum/
+
+    //https://leetcode-cn.com/problems/matrix-diagonal-sum/
     public int diagonalSum(int[][] mat) {
         boolean isEven = mat[0].length % 2 == 0;
         int count = 0;
-        for (int i = 0, j = mat.length-1; i < mat.length && j > 0; i++, j--) {
+        for (int i = 0, j = mat.length - 1; i < mat.length && j > 0; i++, j--) {
             count += mat[i][i];
             if (j + i == mat.length - 1) {
                 count += mat[j][j];
             }
         }
-        count-=mat[mat.length/2][mat.length/2];
+        count -= mat[mat.length / 2][mat.length / 2];
+        return count;
+    }
+
+    //https://leetcode-cn.com/problems/count-of-matches-in-tournament/submissions/
+    public int numberOfMatches(int n) {
+        int count = 0;
+        while (n != 1) {
+            count += n / 2;
+            n = n / 2 + n % 2;
+        }
         return count;
     }
 }
