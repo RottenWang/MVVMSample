@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 public class LeetCode {
@@ -539,6 +542,108 @@ public class LeetCode {
             count += n / 2;
             n = n / 2 + n % 2;
         }
+        Queue queue = new LinkedList();
+        queue.peek();//返回队头元素
+        queue.poll();//删除并返回队头的元素
+//        queue.offer() 将元素e插入队尾
         return count;
+    }
+
+    //https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    //https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/
+    int res = 0;
+
+    public int maxPathSum(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int max = 0;
+        int left = Math.max(0, dfd(root.left));
+        int right = Math.max(0, dfd(root.right));
+        max = Math.max(max, left + right + root.val);
+        return Math.max(res, max);
+    }
+
+    public int dfd(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = Math.max(0, dfd(root.left));
+        int right = Math.max(0, dfd(root.right));
+        res = Math.max(res, left + right + root.val);
+        return Math.max(left, right) + root.val;
+    }
+
+    private Map<Integer, Integer> indexMap;
+
+    Map<Integer, Integer> map = new HashMap<>();
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int length = preorder.length;
+        // 存取中序遍历的值和位置
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
+        }
+        return buildTree(preorder, 0, length - 1, 0, length - 1);
+
+    }
+
+    //todo https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+    private TreeNode buildTree(int[] preorder, int preLeft, int preRight, int inLeft, int inRight) {
+        if (preLeft > preRight || inLeft > inRight) {
+            return null;
+        }
+        //获取根节点值
+        int rootValue = preorder[preLeft];
+        TreeNode treeNode = new TreeNode(rootValue);
+        //根据根节点的值拿到对应中序遍历中的位置
+        int inRoot = map.get(rootValue);
+        treeNode.left = buildTree(preorder, preLeft + 1, inRoot - inLeft + preLeft, inLeft, inRoot - 1);
+        treeNode.right = buildTree(preorder, inRoot - inLeft + preLeft + 1, preRight, inRoot + 1, inRight);
+        return treeNode;
+    }
+    private boolean isBalanced;
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        int left = getTreeDeep(root.left);
+        int right = getTreeDeep(root.right);
+        if (!isBalanced){
+            return isBalanced;
+        }
+        return Math.abs(left-right)<=1;
+    }
+//todo  写法不对https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/
+    private int getTreeDeep(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int current = 1;
+        int left =current+ getTreeDeep(root.left);
+        int right = current+ getTreeDeep(root.right);
+        isBalanced =  Math.abs(left-right)<=1;
+        int max = Math.max(left,right);
+        return max;
     }
 }
