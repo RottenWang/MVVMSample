@@ -229,10 +229,6 @@ public class LeetCode {
         return count;
     }
 
-    public static void main(String[] args) {
-        int[] i = new int[]{1, 2, 3, 1, 1, 3};
-        numIdenticalPairs2(i);
-    }
 
     //https://leetcode-cn.com/problems/number-of-good-pairs/comments/
     public static int numIdenticalPairs2(int[] nums) {
@@ -550,19 +546,19 @@ public class LeetCode {
     }
 
     //https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
+    public static class TreeNode {
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
 
-        TreeNode() {
+        public TreeNode() {
         }
 
-        TreeNode(int val) {
+        public TreeNode(int val) {
             this.val = val;
         }
 
-        TreeNode(int val, TreeNode left, TreeNode right) {
+        public TreeNode(int val, TreeNode left, TreeNode right) {
             this.val = val;
             this.left = left;
             this.right = right;
@@ -593,57 +589,355 @@ public class LeetCode {
         return Math.max(left, right) + root.val;
     }
 
-    private Map<Integer, Integer> indexMap;
-
     Map<Integer, Integer> map = new HashMap<>();
 
     public TreeNode buildTree(int[] preorder, int[] inorder) {
         int length = preorder.length;
         // 存取中序遍历的值和位置
-        for (int i = 0; i < inorder.length; i++) {
-            map.put(inorder[i], i);
-        }
-        return buildTree(preorder, 0, length - 1, 0, length - 1);
+//        for (int i = 0; i < inorder.length; i++) {
+//            map.put(inorder[i], i);
+//        }
+        return buildTree(preorder, inorder, 0, length - 1, 0, length - 1);
 
     }
 
     //todo https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
-    private TreeNode buildTree(int[] preorder, int preLeft, int preRight, int inLeft, int inRight) {
+    private TreeNode buildTree(int[] preorder, int[] inorder, int preLeft, int preRight, int inLeft, int inRight) {
         if (preLeft > preRight || inLeft > inRight) {
+            //边界判断
             return null;
         }
-        //获取根节点值
+        //前序遍历的第一个元素 必定是子节点或根节点 第一次调用此方法 必定是根节点
         int rootValue = preorder[preLeft];
+        //拿到中序遍历的对应的位置 这个位置的左右 就是左右子树
+        int rootPosition = -1;
+        for (int i = 0; i < inorder.length; i++) {
+            if (rootValue == inorder[i]) {
+                rootPosition = i;
+                break;
+            }
+        }
+//        int rootPosition = map.get(rootValue);
+        //创建根节点(或子节点)
         TreeNode treeNode = new TreeNode(rootValue);
-        //根据根节点的值拿到对应中序遍历中的位置
-        int inRoot = map.get(rootValue);
-        treeNode.left = buildTree(preorder, preLeft + 1, inRoot - inLeft + preLeft, inLeft, inRoot - 1);
-        treeNode.right = buildTree(preorder, inRoot - inLeft + preLeft + 1, preRight, inRoot + 1, inRight);
+
+        int rootLeftCount = rootPosition - inLeft;
+        treeNode.left = buildTree(preorder, inorder, preLeft + 1, rootLeftCount + preLeft, inLeft, rootPosition - 1);
+        treeNode.right = buildTree(preorder, inorder, rootLeftCount + preLeft + 1, preRight, rootPosition + 1, inRight);
         return treeNode;
     }
-    private boolean isBalanced;
+
+    //https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        //获取左树深度 再获取右树最大深度 然后加1 就是最大的深度
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+
+    //  写法不对https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/
     public boolean isBalanced(TreeNode root) {
         if (root == null) {
             return true;
         }
-
-        int left = getTreeDeep(root.left);
-        int right = getTreeDeep(root.right);
-        if (!isBalanced){
-            return isBalanced;
-        }
-        return Math.abs(left-right)<=1;
+        //判断root的左右是否相差是1 再分别判断左和右是否相差1
+        return Math.abs((getMaxDeep(root.left) - getMaxDeep(root.right))) <= 1 && isBalanced(root.left) && isBalanced(root.right);
     }
-//todo  写法不对https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/
-    private int getTreeDeep(TreeNode root) {
+
+    private int getMaxDeep(TreeNode root) {
         if (root == null) {
             return 0;
         }
-        int current = 1;
-        int left =current+ getTreeDeep(root.left);
-        int right = current+ getTreeDeep(root.right);
-        isBalanced =  Math.abs(left-right)<=1;
-        int max = Math.max(left,right);
-        return max;
+        return Math.max(getMaxDeep(root.left), getMaxDeep(root.right)) + 1;
+    }
+
+    //https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if (B == null || A == null) {
+            return false;
+        }
+        //匹配根节点              //匹配左节点                //匹配右节点
+        return recur(A, B) || isSubStructure(A.left, B) || isSubStructure(A.right, B);
+    }
+
+    private boolean recur(TreeNode A, TreeNode B) {
+        if (B == null) {
+            //匹配完成
+            return true;
+        }
+        if (A == null || A.val != B.val) {
+            //越界或值不相等
+            return false;
+        }
+        //继续根据左右去匹配
+        return recur(A.left, B.left) && recur(A.right, B.right);
+    }
+    //https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/
+
+
+    public static void main(String[] args) {
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(2);
+        treeNode.right = new TreeNode(2);
+        treeNode.left.right = new TreeNode(3);
+        treeNode.right.left = new TreeNode(3);
+        boolean symmetric = new LeetCode().isSymmetric(treeNode);
+
+    }
+
+    //https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/solution/mian-shi-ti-28-dui-cheng-de-er-cha-shu-di-gui-qing/
+    public boolean isSymmetric(TreeNode root) {
+        return isSame(root.left, root.right);
+    }
+
+    private boolean isSame(TreeNode left, TreeNode right) {
+        if (left == null && right == null) {
+            return true;
+        }
+        //先判断两者是否都为null 这里就不用判断另外的值是否为null了
+        if ((left == null || right == null)) {
+            return false;
+        }
+
+//        if (){
+//            return true;
+//        }
+        //如果值相等 且继续向下遍历时的值 也满足这些条件 那就是true
+        return left.val == right.val && isSame(left.left, right.right) && isSame(left.right, right.left);
+    }
+
+    //根据前序遍历和中序遍历 重建二叉树
+    public TreeNode buildTree2(int[] preorder, int[] inorder) {
+        return myTree2(preorder, inorder, 0, preorder.length - 1, 0, inorder.length - 1);
+    }
+
+    private TreeNode myTree2(int[] preorder, int[] inorder, int preLeft, int preRight, int inLeft, int inRight) {
+        if (preLeft > preRight || inLeft > inRight) {
+            //超出范围 return
+            return null;
+        }
+
+        //拿到前序遍历的根节点
+        int rootValue = preorder[preLeft];
+        //根据前序遍历的根节点 找到中序遍历的根节点位置
+        int rootPosition = 0;
+        for (int i = 0; i < inorder.length; i++) {
+            if (inorder[i] == rootValue) {
+                rootPosition = i;
+                break;
+            }
+        }
+        //根据中序遍历的位置 设置根节点的值
+        TreeNode treeNode = new TreeNode(rootValue);
+        //获取左子树的数量
+        int leftRootCount = rootPosition - inLeft;
+        //回归左子树
+        treeNode.left = myTree2(preorder, inorder, preLeft + 1, leftRootCount + preLeft, inLeft, rootPosition - 1);
+        //回归右子树
+        treeNode.right = myTree2(preorder, inorder, leftRootCount + preLeft + 1, preRight, rootPosition + 1, inRight);
+        return treeNode;
+    }
+
+    //https://leetcode-cn.com/problems/xu-lie-hua-er-cha-shu-lcof/
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        if (root == null) {
+            return "[]";
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        sb.append("[");
+        while (!queue.isEmpty()) {
+            TreeNode childRoot = queue.poll();
+            if (childRoot != null) {
+                sb.append(childRoot.val + ",");
+                queue.add(childRoot.left);
+                queue.add(childRoot.right);
+            } else {
+                sb.append("null,");
+            }
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        sb.append("]");
+        return sb.toString();
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        if (data == "[]") {
+            return null;
+        }
+        String[] vals = data.substring(1, data.length() - 1).split(",");
+        Queue<TreeNode> queue = new LinkedList<>();
+        TreeNode treeNode = new TreeNode(Integer.parseInt(vals[0]));
+        queue.add(treeNode);
+        int i = 1;
+        while (!queue.isEmpty()){
+            TreeNode node = queue.poll();
+            if (!vals[i].equals("null")){
+                //这个节点有值
+                node.left = new TreeNode(Integer.valueOf(vals[i]));
+                queue.add(node.left);
+            }
+            i++;
+            if (!vals[i].equals("null")){
+                //这个节点有值
+                node.right = new TreeNode(Integer.valueOf(vals[i]));
+                queue.add(node.right);
+            }
+            i++;
+        }
+        return treeNode;
+    }
+
+    //https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/
+    public int fib(int n) {
+//        LinkedHashMap<Integer, Integer> map = new LinkedHashMap<>();
+//        map.put(1,1);
+//        map.put(0,0);
+//        for (int i = 2; i <= n; i++) {
+//            map.put(i,((map.get(i-1)+map.get(i-2)) % 1000000007));
+//        }
+//        return map.get(n);
+        if (n < 2) {
+            return n;
+        }
+        int a = 0;
+        int b = 0;
+        int sum = 1;
+        for (int i = 2; i < n; i++) {
+            //n = 3
+            //a=0 b =1 ,sum = 1 a = 1 b = 1
+            //sum = 2 a = 1 b = 2
+            //sum = 3 a = 2 b = 3
+            a = b;
+            b = sum;
+            sum = a + b;
+            sum %= 1000000007;
+        }
+        return sum;
+//        int[] ints = new int[n + 1];
+//        ints[1] = 1;
+//
+//        for (int i = 2; i <= n; i++) {
+//            ints[i] = ints[i-1] + ints[i-2];
+//            ints[i] %= 1000000007;
+//        }
+//        return ints[n];
+    }
+
+
+    public int coinChange(int[] coins, int amount) {
+        return dp(amount, coins);
+    }
+
+    HashMap<Integer, Integer> maps = new HashMap<>();
+
+    //
+    public int dp(int n, int[] coins) {
+        if (maps.containsKey(n)) {
+            return maps.get(n);
+        }
+        if (n == 0) {
+            return 0;
+        }
+        if (n < 0) {
+            return -1;
+        }
+        //1, 2, 5 ,amount = 100
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < coins.length; i++) {
+            int coin = coins[i];//1
+            int count = dp(n - coin, coins);
+            if (count == -1) {
+                continue;
+            }
+            min = Math.min(min, count + 1);
+            maps.put(n, Math.min(min, count + 1));
+        }
+        return min == Integer.MAX_VALUE ? -1 : min;
+    }
+
+    public int[] reversePrint(ListNode head) {
+
+
+        ArrayList<Integer> objects = new ArrayList<>();
+        for (ListNode p = head; p != null; p = p.next) {
+            objects.add(p.val);
+        }
+        int[] ints1 = new int[objects.size()];
+        for (int i = objects.size() -1; i >=0; i--) {
+            ints1[objects.size() -1 -i] = objects.get(i);
+        }
+        return ints1;
+    }
+
+    class CQueue {
+        Queue<Integer> first = new LinkedList<>();
+        Queue<Integer> second = new LinkedList<>();
+        public CQueue() {
+
+        }
+
+        public void appendTail(int value) {
+        first.add(value);
+        }
+
+        public int deleteHead() {
+            if (!second.isEmpty()){
+                return second.remove();
+            }
+            if (first.isEmpty()){
+                return -1;
+            }
+            while (!first.isEmpty()){
+                second.add(first.remove());
+            }
+            return second.remove();
+        }
+    }
+    public ListNode reverseList(ListNode head) {
+        ListNode cur = head, pre = null;
+        while(cur != null) {
+            ListNode tmp = cur.next; // 暂存后继节点 cur.next
+            cur.next = pre;          // 修改 next 引用指向
+            pre = cur;               // pre 暂存 cur
+            cur = tmp;               // cur 访问下一节点
+        }
+        return pre;
+    }
+
+    public double myPow(double x, int n) {
+        if (n == 0){
+            return 1;
+        }
+        if (x == 0){
+            return 0;
+        }
+        if (n < 0){
+            x = 1/x;
+        }
+        double temp = x;
+        for (int i = 0; i < Math.abs(n)-1; i++) {
+            x *=temp;
+        }
+        return x;
+    }
+
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode cur = head;
+        while (cur != null && cur.next != null){
+            if (cur.val == cur.next.val){
+                cur = cur.next.next;
+            }else {
+                cur = cur.next;
+            }
+        }
+        return cur;
     }
 }
+

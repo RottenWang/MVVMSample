@@ -14,6 +14,7 @@ import com.drwang.common.utils.toast
 import com.drwang.module_me.R
 import com.drwang.module_me.database.Person
 import com.drwang.module_me.database.PersonDataBase
+import com.drwang.module_me.leetcode.LeetCode
 import com.drwang.module_me.viewmodel.MeViewModel
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.socks.library.KLog
@@ -31,7 +32,20 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         toast(name)
-
+        LeetCode.main(arrayOf())
+        val treeNode = LeetCode.TreeNode(1)
+        treeNode.left = LeetCode.TreeNode(2)
+        treeNode.right = LeetCode.TreeNode(3)
+        treeNode.right.left = LeetCode.TreeNode(4)
+        treeNode.right.right = LeetCode.TreeNode(5)
+        val serialize = LeetCode().serialize(treeNode);
+        KLog.d("wangchen","serialize = "+ serialize)
+//        doAsync {
+//            val coinChange = LeetCode().coinChange(intArrayOf(1, 2, 5), 100);
+//            KLog.d("wangchen","change = " + coinChange)
+//        }
+        val myPow = LeetCode().myPow(2.0, 10);
+        KLog.d("wangchen","pow = " + myPow)
     }
 
     override fun initView() {

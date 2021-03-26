@@ -16,6 +16,7 @@ import com.drwang.common.route.MeService
 import com.drwang.common.utils.RouteClass
 import com.drwang.common.utils.toast
 import com.drwang.livedata.viewmodel.MainViewModel
+import com.drwang.module_me.leetcode.LeetCode
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.socks.library.KLog
 import kotlinx.android.synthetic.main.activity_main.*
@@ -41,7 +42,7 @@ class MainActivity : BaseMVVMActivity<MainViewModel>() {
         bottomNavigationView.interceptLongClick(R.id.menu_main, R.id.menu_project, R.id.menu_system, R.id.menu_public, R.id.menu_me)
 //        mViewModel.login()
         mViewModel.getName()
-
+        LeetCode.main(arrayOf(""));
     }
 
     override fun getLayoutId(): Int {
