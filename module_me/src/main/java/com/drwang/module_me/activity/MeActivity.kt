@@ -1,11 +1,10 @@
 package com.drwang.module_me.activity
 
+import android.graphics.Rect
 import android.os.Bundle
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.drwang.common.base.BaseApp
 import com.drwang.common.base.BaseMVVMActivity
 import com.drwang.common.event.MyEvent
 import com.drwang.common.utils.RouteClass
@@ -18,8 +17,6 @@ import com.drwang.module_me.leetcode.LeetCode
 import com.drwang.module_me.viewmodel.MeViewModel
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.socks.library.KLog
-import kotlinx.android.synthetic.main.module_me_activity_me.*
-import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
 
 @Route(path = RouteClass.ME.module_me_me)
@@ -40,6 +37,7 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
         treeNode.right.right = LeetCode.TreeNode(5)
         val serialize = LeetCode().serialize(treeNode);
         KLog.d("wangchen","serialize = "+ serialize)
+        reSizeSoftInput()
 //        doAsync {
 //            val coinChange = LeetCode().coinChange(intArrayOf(1, 2, 5), 100);
 //            KLog.d("wangchen","change = " + coinChange)
@@ -48,9 +46,40 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
         KLog.d("wangchen","pow = " + myPow)
     }
 
+    var mLastHeightDifferece = 0;
+    private fun reSizeSoftInput() {
+        //rlRoot 当前窗体view
+//        rlRoot.post {
+//            rlRoot.viewTreeObserver.addOnGlobalLayoutListener {
+//                val r = Rect()
+//                //获取当前页面的指定view的位置 就是被软键盘遮挡的view的根view 一般就是xml中定义的根View
+//                rlRoot.getWindowVisibleDisplayFrame(r)
+//                //获取rootView的高度 DecorView
+//                val screenHeight = rlRoot.rootView.height
+//                //获取状态栏高度
+//                val statusBarHeight = StatusBarUtil.getStatusBarHeight()
+//                //获取底部导航栏高度
+//                val navigationBarHeight = StatusBarUtil.getNavigationBarHeight()
+//                //获取当前窗体的实际高度 可能因为软键盘的变化被遮挡
+//                val heightDifference = screenHeight - (r.bottom - r.top) - statusBarHeight - navigationBarHeight
+//                //如果变化的距离为负数,则移动到0并记录
+//                if (heightDifference <=0 && heightDifference != mLastHeightDifferece){
+//                    mLastHeightDifferece = heightDifference
+//                    rlRoot.animate().translationY(0f).setDuration(200).start()
+////                    return@addOnGlobalLayoutListener
+//                }else if (heightDifference != mLastHeightDifferece) {
+//                    //或者移动改变距离的-distance
+//                    mLastHeightDifferece = heightDifference
+//                    rlRoot.animate().translationY(-heightDifference.toFloat()).setDuration(200).start()
+//                }
+//            }
+//        }
+
+    }
+
     override fun initView() {
 //        EventBus.getDefault().post(MyEvent().apply { name = "testtest" })
-//        LiveEventBus.get("test").post(MyEvent().apply { name = "hahahahah" })
+        LiveEventBus.get("test").post(MyEvent().apply { name = "hahahahah" })
 //        doAsync {
             val personDb = Room.databaseBuilder(applicationContext, PersonDataBase::class.java, "persondb")
                     .build()
