@@ -9,6 +9,7 @@ import android.util.SparseArray
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.util.forEach
+import com.socks.library.KLog
 
 class MultiTouchView3(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
 
@@ -35,6 +36,7 @@ class MultiTouchView3(context: Context, attributeSet: AttributeSet) : View(conte
 
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        KLog.e("wangchen","action = " + event.actionMasked)
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
                 val path = Path()
@@ -47,7 +49,8 @@ class MultiTouchView3(context: Context, attributeSet: AttributeSet) : View(conte
             MotionEvent.ACTION_MOVE -> {
                 for (i in 0 until array.size()) {
                     //根据pointerIndex 拿到id 因为pointerIndex 是从0开始连续的 所以可以用array.size 获取其最大值,
-                    val pointerId = event.getPointerId(i)
+                    var pointerId = -1;
+                    pointerId = event.getPointerId(i)
                     //根据id拿path
                     val path = array.get(pointerId)
                     //将对应index的对应值 放到对应id的path中
@@ -55,10 +58,15 @@ class MultiTouchView3(context: Context, attributeSet: AttributeSet) : View(conte
                 }
                 invalidate()
             }
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {
-                val actionIndex = event.actionIndex
-                val pointerId = event.getPointerId(actionIndex)
-                array.remove(pointerId)
+            //触发cancel时也要监听 不然会崩溃
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP, MotionEvent.ACTION_CANCEL -> {
+                if (event.actionMasked == MotionEvent.ACTION_UP || event.actionMasked == MotionEvent.ACTION_CANCEL) {
+                    array.clear();
+                } else {
+                    val actionIndex = event.actionIndex
+                    val pointerId = event.getPointerId(actionIndex)
+                    array.remove(pointerId)
+                }
                 invalidate()
             }
 
