@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.drwang.module_me.view.MultiTouchView3 xmlns:android="http://schemas.android.com/apk/res/android"
+<com.drwang.module_me.view.TapeView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="200dp">
 
 <!--    <View-->
 <!--        android:layout_width="match_parent"-->
@@ -12,4 +12,4 @@
 <!--        android:layout_width="match_parent"-->
 <!--        android:background="#0fff00ff"-->
 <!--        android:layout_height="match_parent" />-->
-</com.drwang.module_me.view.MultiTouchView3>
+</com.drwang.module_me.view.TapeView>
