@@ -521,13 +521,14 @@ public class LeetCode {
     public int diagonalSum(int[][] mat) {
         boolean isEven = mat[0].length % 2 == 0;
         int count = 0;
-        for (int i = 0, j = mat.length - 1; i < mat.length && j > 0; i++, j--) {
+        for (int i = 0; i < mat.length; i++) {
             count += mat[i][i];
-            if (j + i == mat.length - 1) {
-                count += mat[j][j];
-            }
+            count += mat[i][mat.length - i - 1];
         }
-        count -= mat[mat.length / 2][mat.length / 2];
+        if (!isEven) {
+            count -= mat[mat.length / 2][mat.length / 2];
+
+        }
         return count;
     }
 
@@ -566,27 +567,31 @@ public class LeetCode {
     }
 
     //https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/
-    int res = 0;
+    int maxSum = Integer.MIN_VALUE;
 
     public int maxPathSum(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        int max = 0;
-        int left = Math.max(0, dfd(root.left));
-        int right = Math.max(0, dfd(root.right));
-        max = Math.max(max, left + right + root.val);
-        return Math.max(res, max);
+        maxGain(root);
+        return maxSum;
     }
 
-    public int dfd(TreeNode root) {
-        if (root == null) {
+    public int maxGain(TreeNode node) {
+        if (node == null) {
             return 0;
         }
-        int left = Math.max(0, dfd(root.left));
-        int right = Math.max(0, dfd(root.right));
-        res = Math.max(res, left + right + root.val);
-        return Math.max(left, right) + root.val;
+
+        // 递归计算左右子节点的最大贡献值
+        // 只有在最大贡献值大于 0 时，才会选取对应子节点
+        int leftGain = Math.max(maxGain(node.left), 0);
+        int rightGain = Math.max(maxGain(node.right), 0);
+
+        // 节点的最大路径和取决于该节点的值与该节点的左右子节点的最大贡献值
+        int priceNewpath = node.val + leftGain + rightGain;
+
+        // 更新答案
+        maxSum = Math.max(maxSum, priceNewpath);
+
+        // 返回节点的最大贡献值
+        return node.val + Math.max(leftGain, rightGain);
     }
 
     Map<Integer, Integer> map = new HashMap<>();
@@ -776,15 +781,15 @@ public class LeetCode {
         TreeNode treeNode = new TreeNode(Integer.parseInt(vals[0]));
         queue.add(treeNode);
         int i = 1;
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             TreeNode node = queue.poll();
-            if (!vals[i].equals("null")){
+            if (!vals[i].equals("null")) {
                 //这个节点有值
                 node.left = new TreeNode(Integer.valueOf(vals[i]));
                 queue.add(node.left);
             }
             i++;
-            if (!vals[i].equals("null")){
+            if (!vals[i].equals("null")) {
                 //这个节点有值
                 node.right = new TreeNode(Integer.valueOf(vals[i]));
                 queue.add(node.right);
@@ -870,8 +875,8 @@ public class LeetCode {
             objects.add(p.val);
         }
         int[] ints1 = new int[objects.size()];
-        for (int i = objects.size() -1; i >=0; i--) {
-            ints1[objects.size() -1 -i] = objects.get(i);
+        for (int i = objects.size() - 1; i >= 0; i--) {
+            ints1[objects.size() - 1 - i] = objects.get(i);
         }
         return ints1;
     }
@@ -879,30 +884,32 @@ public class LeetCode {
     class CQueue {
         Queue<Integer> first = new LinkedList<>();
         Queue<Integer> second = new LinkedList<>();
+
         public CQueue() {
 
         }
 
         public void appendTail(int value) {
-        first.add(value);
+            first.add(value);
         }
 
         public int deleteHead() {
-            if (!second.isEmpty()){
+            if (!second.isEmpty()) {
                 return second.remove();
             }
-            if (first.isEmpty()){
+            if (first.isEmpty()) {
                 return -1;
             }
-            while (!first.isEmpty()){
+            while (!first.isEmpty()) {
                 second.add(first.remove());
             }
             return second.remove();
         }
     }
+
     public ListNode reverseList(ListNode head) {
         ListNode cur = head, pre = null;
-        while(cur != null) {
+        while (cur != null) {
             ListNode tmp = cur.next; // 暂存后继节点 cur.next
             cur.next = pre;          // 修改 next 引用指向
             pre = cur;               // pre 暂存 cur
@@ -912,28 +919,28 @@ public class LeetCode {
     }
 
     public double myPow(double x, int n) {
-        if (n == 0){
+        if (n == 0) {
             return 1;
         }
-        if (x == 0){
+        if (x == 0) {
             return 0;
         }
-        if (n < 0){
-            x = 1/x;
+        if (n < 0) {
+            x = 1 / x;
         }
         double temp = x;
-        for (int i = 0; i < Math.abs(n)-1; i++) {
-            x *=temp;
+        for (int i = 0; i < Math.abs(n) - 1; i++) {
+            x *= temp;
         }
         return x;
     }
 
     public ListNode deleteDuplicates(ListNode head) {
         ListNode cur = head;
-        while (cur != null && cur.next != null){
-            if (cur.val == cur.next.val){
+        while (cur != null && cur.next != null) {
+            if (cur.val == cur.next.val) {
                 cur = cur.next.next;
-            }else {
+            } else {
                 cur = cur.next;
             }
         }
