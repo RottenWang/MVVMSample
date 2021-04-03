@@ -637,7 +637,7 @@ public class LeetCode {
     }
 
 
-    //  写法不对https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/
+    // https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/
     public boolean isBalanced(TreeNode root) {
         if (root == null) {
             return true;
