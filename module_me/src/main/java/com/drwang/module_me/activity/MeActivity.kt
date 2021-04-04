@@ -44,6 +44,9 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
 //        }
         val myPow = LeetCode().myPow(2.0, 10);
         KLog.d("wangchen","pow = " + myPow)
+
+        //创建动画
+//        ViewAnimationUtils.createCircularReveal()
     }
 
     var mLastHeightDifferece = 0;
