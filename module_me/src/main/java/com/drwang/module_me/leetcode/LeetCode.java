@@ -984,9 +984,41 @@ public class LeetCode {
                 set.add(s.charAt(right + 1));
                 right++;
             }
-            max = Math.max(max,right - i+1);
+            max = Math.max(max, right - i + 1);
         }
         return max;
     }
+//https://leetcode-cn.com/problems/add-two-numbers/submissions/
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int value = 0;
+        ListNode root = null;
+        ListNode current = null;
+        int sum;
+        while(l1 != null || l2 != null){
+            int n1 = l1 == null? 0 :l1.val;
+            int n2 = l2 == null? 0 :l2.val;
+             sum = n1+n2+value;
+            if (root == null){
+                root = current = new ListNode(sum %10);
+            }else {
+                current.next = new ListNode(sum % 10);
+                //移动到下个指针位置
+                current = current.next;
+            }
+            value = sum / 10;
+            if (l1 != null){
+                l1 = l1.next;
+            }
+            if (l2 != null){
+                l2 = l2.next;
+            }
+        }
+        if (value != 0){
+           current.next = new ListNode(value);
+        }
+
+        return root;
+    }
+
 }
 
