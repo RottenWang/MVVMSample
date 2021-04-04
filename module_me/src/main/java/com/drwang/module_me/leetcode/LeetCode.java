@@ -910,10 +910,11 @@ public class LeetCode {
     public ListNode reverseList(ListNode head) {
         ListNode cur = head, pre = null;
         while (cur != null) {
-            ListNode tmp = cur.next; // 暂存后继节点 cur.next
-            cur.next = pre;          // 修改 next 引用指向
-            pre = cur;               // pre 暂存 cur
-            cur = tmp;               // cur 访问下一节点
+
+            ListNode tmp = cur.next; // cur 向后移动,但是 要先改pre的值,所以 暂存
+            cur.next = pre;          // cur 要被赋值给pre,那么 cur.next 应该先指向上一次的pre,这样就完成了指针的反向指向,
+            pre = cur;               // pre 指向cur 也就是 cur上一步完成了对之前pre的指向,现在需要把pre赋值
+            cur = tmp;               // cur 上两步完成,cur向后移动
         }
         return pre;
     }
@@ -945,6 +946,47 @@ public class LeetCode {
             }
         }
         return cur;
+    }
+
+    public int numRabbits(int[] answers) {
+        int count = 0;
+        HashMap<Integer, Integer> map = new HashMap();
+        for (int i = 0; i < answers.length; i++) {
+            if (answers[i] == 0) {
+                count++;
+                continue;
+            }
+            map.put(answers[i], answers[i]);
+        }
+
+        Set<Integer> integers = map.keySet();
+        for (int ints : integers) {
+            count += ints;
+        }
+        return count + 1;
+    }
+
+    //https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
+    public int lengthOfLongestSubstring(String s) {
+        if (s == null || s.isEmpty()) {
+            return 0;
+        }
+        HashSet<Character> set = new HashSet<>();
+        int n = s.length();
+        int right = -1;
+        int max = 0;
+        for (int i = 0; i < n; i++) {
+            if (i != 0) {
+                //框向右移动一位
+                set.remove(s.charAt(i - 1));
+            }
+            while ((right + 1 < n && !set.contains(s.charAt(right + 1)))) {
+                set.add(s.charAt(right + 1));
+                right++;
+            }
+            max = Math.max(max,right - i+1);
+        }
+        return max;
     }
 }
 
