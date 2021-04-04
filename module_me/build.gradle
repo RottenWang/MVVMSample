@@ -9,6 +9,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.drwang.plugin2'
+code2{
+    name "hahahaha2"
+//    setName("hahahaha")
+}
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -60,7 +65,15 @@ android {
     resourcePrefix "${project.name}_"
 
 }
+//TODO NOTICE isModule = false 时, 会报错 因为作用域不对
+//测试plugin 名字就是META-INF里的配置文件的名字
+apply plugin: 'com.drwang.plugin'
 
+//测试plugin 内容
+code{
+    name "hahahaha"
+//    setName("hahahaha")
+}
 dependencies {
     api project(':common')
     kapt rootProject.ext.dependencies.arouterCompiler

@@ -988,37 +988,106 @@ public class LeetCode {
         }
         return max;
     }
-//https://leetcode-cn.com/problems/add-two-numbers/submissions/
+
+    //https://leetcode-cn.com/problems/add-two-numbers/submissions/
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         int value = 0;
         ListNode root = null;
         ListNode current = null;
         int sum;
-        while(l1 != null || l2 != null){
-            int n1 = l1 == null? 0 :l1.val;
-            int n2 = l2 == null? 0 :l2.val;
-             sum = n1+n2+value;
-            if (root == null){
-                root = current = new ListNode(sum %10);
-            }else {
+        while (l1 != null || l2 != null) {
+            int n1 = l1 == null ? 0 : l1.val;
+            int n2 = l2 == null ? 0 : l2.val;
+            sum = n1 + n2 + value;
+            if (root == null) {
+                root = current = new ListNode(sum % 10);
+            } else {
                 current.next = new ListNode(sum % 10);
                 //移动到下个指针位置
                 current = current.next;
             }
             value = sum / 10;
-            if (l1 != null){
+            if (l1 != null) {
                 l1 = l1.next;
             }
-            if (l2 != null){
+            if (l2 != null) {
                 l2 = l2.next;
             }
         }
-        if (value != 0){
-           current.next = new ListNode(value);
+        if (value != 0) {
+            current.next = new ListNode(value);
         }
 
         return root;
     }
 
+    //https://leetcode-cn.com/problems/median-of-two-sorted-arrays/
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        //[1,3] [2]
+        if (nums1 == null){
+            nums1 = new int[0];
+        }
+        if (nums2 == null){
+            nums2 = new int[0];
+        }
+        int length = nums1.length + nums2.length;
+        if (length == 1){
+            return nums1.length == 0 ? nums2[0]:nums1[0];
+        }
+        int[] ints = new int[length];
+        int middle = length / 2;
+        boolean isOne = middle % 2 == 1 && length != 2;
+        System.out.println("middle =" + middle + ",isOne = " + isOne);
+        int off1 = 0;
+        int off2 = 0;
+        int min = Integer.MIN_VALUE;
+        int value = min;
+        for (int i = 0; i < length; i++) {
+            int i1 = i - off1 < nums1.length ? nums1[i - off1] : min;
+            int i2 = i - off2 < nums2.length ? nums2[i - off2] : min;
+
+            System.out.println("i1 = " + i1 + ",i2 = " + i2);
+            if (i1 != min && i2 != min) {
+                if (i1 < i2) {
+                    ints[i] = i1;
+                    off2++;
+                } else {
+                    ints[i] = i2;
+                    off1++;
+                }
+            } else if (i1 == min && i2 != min) {
+                ints[i] = i2;
+            } else if (i1 !=min && i2 == min) {
+                ints[i] = i1;
+            }
+            System.out.println("value = " + ints[i]);
+            if (isOne) {
+
+                if (i == middle) {
+                    System.out.println("isOne");
+                    return ints[i];
+                }
+            } else {
+                if (i == middle) {
+
+                    System.out.println("!isOne");
+                    return (ints[i] + ints[i - 1]) / 2.0f;
+                }
+            }
+        }
+        return value;
+    }
+
+    public ListNode reserve(ListNode root){
+        ListNode pre  = null;
+        ListNode cur = root;
+        while (cur != null){
+            ListNode tmp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = tmp;
+        }
+        return pre;
+    }
 }
 

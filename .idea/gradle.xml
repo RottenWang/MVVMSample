@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/aidl_client" />
             <option value="$PROJECT_DIR$/aidl_server" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/module_me" />
           </set>
