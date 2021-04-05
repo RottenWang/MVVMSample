@@ -9,10 +9,9 @@ import android.os.Handler
 import android.os.IBinder
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.drwang.aidi_client.R
-import com.drwang.aidl_server.aidl.BinderObj
+import com.drwang.aidl_server.aidl.Stub
 import com.drwang.aidl_server.aidl.Person
 import com.drwang.aidl_server.aidl.PersonManager
-import com.drwang.aidl_server.aidl.ServerService
 import com.drwang.common.base.BaseActivity
 import com.drwang.common.utils.RouteField
 import com.drwang.common.utils.toast
@@ -57,7 +56,7 @@ class AIDLClientActivity : BaseActivity() {
         override fun onServiceConnected(name2: ComponentName?, service: IBinder?) {
             KLog.d("wangchen", "connected ")
             isConnect = true
-            personManger = BinderObj.asInterface(service)
+            personManger = Stub.asInterface(service)
             personManger?.addPerson(Person().apply {
                 name = "lisi"
                 age = 33

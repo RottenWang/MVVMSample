@@ -132,6 +132,13 @@ public class LeetCode {
         ListNode(int x) {
             val = x;
         }
+        //简单的责任链
+        int totalVal(int lastVal) {
+            if (next != null) {
+                return next.totalVal(lastVal + val);
+            }
+            return 0;
+        }
     }
 
     //https://leetcode-cn.com/problems/design-parking-system
@@ -1024,15 +1031,15 @@ public class LeetCode {
     //https://leetcode-cn.com/problems/median-of-two-sorted-arrays/
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         //[1,3] [2]
-        if (nums1 == null){
+        if (nums1 == null) {
             nums1 = new int[0];
         }
-        if (nums2 == null){
+        if (nums2 == null) {
             nums2 = new int[0];
         }
         int length = nums1.length + nums2.length;
-        if (length == 1){
-            return nums1.length == 0 ? nums2[0]:nums1[0];
+        if (length == 1) {
+            return nums1.length == 0 ? nums2[0] : nums1[0];
         }
         int[] ints = new int[length];
         int middle = length / 2;
@@ -1057,7 +1064,7 @@ public class LeetCode {
                 }
             } else if (i1 == min && i2 != min) {
                 ints[i] = i2;
-            } else if (i1 !=min && i2 == min) {
+            } else if (i1 != min && i2 == min) {
                 ints[i] = i1;
             }
             System.out.println("value = " + ints[i]);
@@ -1078,10 +1085,10 @@ public class LeetCode {
         return value;
     }
 
-    public ListNode reserve(ListNode root){
-        ListNode pre  = null;
+    public ListNode reserve(ListNode root) {
+        ListNode pre = null;
         ListNode cur = root;
-        while (cur != null){
+        while (cur != null) {
             ListNode tmp = cur.next;
             cur.next = pre;
             pre = cur;

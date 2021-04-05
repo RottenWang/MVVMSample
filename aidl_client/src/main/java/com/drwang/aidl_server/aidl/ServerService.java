@@ -3,7 +3,6 @@ package com.drwang.aidl_server.aidl;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.Messenger;
 
 import androidx.annotation.Nullable;
 
@@ -30,7 +29,7 @@ public class ServerService extends Service {
         mPeople.add(person);
     }
 
-    private BinderObj mStub = new BinderObj() {
+    private Stub mStub = new Stub() {
         @Override
         public void addPerson(Person mPerson) {
             if (mPerson == null) {

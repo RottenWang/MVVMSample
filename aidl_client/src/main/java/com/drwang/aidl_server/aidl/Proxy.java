@@ -6,8 +6,9 @@ import android.os.RemoteException;
 
 import java.util.List;
 
-import static com.drwang.aidl_server.aidl.BinderObj.DESCRIPTOR;
+import static com.drwang.aidl_server.aidl.Stub.DESCRIPTOR;
 
+//实现了Bp端与binder通信的相关代码
 public class Proxy implements PersonManager {
     private IBinder mIBinder;
 
@@ -32,7 +33,7 @@ public class Proxy implements PersonManager {
             } else {
                 data.writeInt(0);
             }
-            boolean status = mIBinder.transact(BinderObj.TRANSAVTION_addPerson, data, reply, 0);
+            boolean status = mIBinder.transact(Stub.TRANSAVTION_addPerson, data, reply, 0);
 //            if (!status && getDefaultImpl() != null) {
 //                getDefaultImpl().addPerson(mPerson);
 //                return;
@@ -53,7 +54,7 @@ public class Proxy implements PersonManager {
         List<Person> result = null;
         try {
             data.writeInterfaceToken(DESCRIPTOR);
-            mIBinder.transact(BinderObj.TRANSAVTION_getPerson, data, reply, 0);
+            mIBinder.transact(Stub.TRANSAVTION_getPerson, data, reply, 0);
             reply.readException();
             result = reply.createTypedArrayList(Person.CREATOR);
 
@@ -73,7 +74,7 @@ public class Proxy implements PersonManager {
         int result = 0;
         data.writeInterfaceToken(DESCRIPTOR);
         try {
-            mIBinder.transact(BinderObj.TRANSAVTION_getInt, data, reply, 0);
+            mIBinder.transact(Stub.TRANSAVTION_getInt, data, reply, 0);
             result = reply.readInt();
         } catch (RemoteException e) {
             e.printStackTrace();

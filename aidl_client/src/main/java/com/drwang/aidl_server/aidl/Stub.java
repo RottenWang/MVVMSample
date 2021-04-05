@@ -11,14 +11,16 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-
-public abstract class BinderObj extends Binder implements PersonManager {
+//Bn binder native bp binder proxy
+//等于Stub类,实现了bn端与Binder通信的代码 继承此类实现抽象方法 拿到这个代理对象就可以进行通信了
+public abstract class Stub extends Binder implements PersonManager {
     public static final String DESCRIPTOR = "com.drwang.aidl_server.aidl.PersonManager";
     public static final int TRANSAVTION_getPerson = IBinder.FIRST_CALL_TRANSACTION;
     public static final int TRANSAVTION_addPerson = IBinder.FIRST_CALL_TRANSACTION + 1;
     public static final int TRANSAVTION_getInt = IBinder.FIRST_CALL_TRANSACTION + 2;
 
     public static PersonManager asInterface(IBinder mIBinder) {
+
         IInterface iInterface = mIBinder.queryLocalInterface(DESCRIPTOR);
         if (null != iInterface && iInterface instanceof PersonManager) {
             return (PersonManager) iInterface;
@@ -27,7 +29,7 @@ public abstract class BinderObj extends Binder implements PersonManager {
 
     }
 
-    public BinderObj() {
+    public Stub() {
         attachInterface(this, DESCRIPTOR);
     }
 
