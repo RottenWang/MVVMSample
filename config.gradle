@@ -19,7 +19,11 @@ ext {
             arouterCompilerVersion = "1.5.1",
             mmkvVersion = "1.2.7",
             bottomNavigationViewExVersion = "2.0.4",
-            eventBusVersion = "3.2.0"
+            eventBusVersion = "3.2.0",
+            rePermissionsVersion = "0.10.2",
+            rxAndroidVersion = "2.0.2",
+            rxJavaVersion = "2.1.12",
+            rxKotlinVersion = "2.2.0"
     ]
 
     dependencies = [
@@ -28,6 +32,10 @@ ext {
             okhttp                : "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion",
             mmkv                  : "com.tencent:mmkv-static:$rootProject.mmkvVersion",
             bottomNavigationViewEx: "com.github.ittianyu:BottomNavigationViewEx:$rootProject.bottomNavigationViewExVersion",
-            eventBus              : "org.greenrobot:eventbus:$rootProject.eventBusVersion"
+            eventBus              : "org.greenrobot:eventbus:$rootProject.eventBusVersion",
+            rxpermissions         : "com.github.tbruyelle:rxpermissions:$rePermissionsVersion",
+            rxjava                : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+            rxandroid             : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+            rxKotlin              : "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
     ]
 }

@@ -1,7 +1,15 @@
 package com.drwang.module_me.activity
 
 import android.animation.ValueAnimator
+import android.annotation.TargetApi
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.provider.Settings
+import android.view.Gravity
+import android.view.WindowManager
+import android.widget.TextView
 import androidx.room.Room
 import androidx.transition.TransitionManager
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -20,6 +28,7 @@ import com.jeremyliao.liveeventbus.LiveEventBus
 import com.socks.library.KLog
 import kotlinx.android.synthetic.main.module_me_activity_me.*
 import org.jetbrains.anko.doAsync
+
 
 @Route(path = RouteClass.ME.module_me_me)
 class MeActivity : BaseMVVMActivity<MeViewModel>() {
@@ -50,6 +59,46 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
         //创建动画
 //        ViewAnimationUtils.createCircularReveal()
         constraintLayout()
+//        if (!Settings.canDrawOverlays(this)){
+//            val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+//            intent.data = Uri.parse("package:$packageName")
+//            startActivityForResult(intent, 0)
+//        }else {
+//            showWindow()
+//        }
+
+
+    }
+
+    @TargetApi(23)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0) {
+            if (Settings.canDrawOverlays(this)) {
+                showWindow()
+            } else {
+
+            }
+        }
+    }
+
+    private fun showWindow() {
+        val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val textView = TextView(this).apply {
+            text = "testWindow"
+            setBackgroundColor(Color.WHITE)
+            setOnClickListener {
+                windowManager.removeView(this)
+            }
+        }
+        var layoutParams = WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY)
+        layoutParams.width = 200;
+        layoutParams.height = 200;
+        layoutParams.flags = (WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                or WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD)
+        layoutParams.gravity = Gravity.CENTER;
+        windowManager.addView(textView, layoutParams);
     }
 
     private fun constraintLayout() {

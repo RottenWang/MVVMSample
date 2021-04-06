@@ -2,6 +2,7 @@
 
 Binder初始化的工作就是通过JNI建立起Native Binder 与 Java Binder之间互相通信的桥梁
 
+通信流程:BinderProxy.transact() ->(Native) BinderProxyJni.transact() ->(Kernel)libbinder->(Native)JavaBBinder.onTransact()->Binder.execTransact() ->Binder.onTransact()
 
 
 #### MessageQueue

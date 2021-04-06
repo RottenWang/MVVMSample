@@ -79,4 +79,8 @@ dependencies {
     api "androidx.room:room-runtime:$room_version"
     // For Kotlin use kapt instead of annotationProcessor
     kapt "androidx.room:room-compiler:$room_version"
+    api  rootProject.ext.dependencies.rxpermissions
+    api  rootProject.ext.dependencies.rxjava
+    api  rootProject.ext.dependencies.rxandroid
+    api  rootProject.ext.dependencies.rxKotlin
 }
