@@ -1,8 +1,9 @@
 package com.drwang.module_me.activity
 
-import android.graphics.Rect
+import android.animation.ValueAnimator
 import android.os.Bundle
 import androidx.room.Room
+import androidx.transition.TransitionManager
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.drwang.common.base.BaseMVVMActivity
@@ -17,6 +18,7 @@ import com.drwang.module_me.leetcode.LeetCode
 import com.drwang.module_me.viewmodel.MeViewModel
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.socks.library.KLog
+import kotlinx.android.synthetic.main.module_me_activity_me.*
 import org.jetbrains.anko.doAsync
 
 @Route(path = RouteClass.ME.module_me_me)
@@ -24,7 +26,7 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
 
     @Autowired(name = RouteField.name)
     @JvmField
-    var name :String = ""
+    var name: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,20 +38,36 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
         treeNode.right.left = LeetCode.TreeNode(4)
         treeNode.right.right = LeetCode.TreeNode(5)
         val serialize = LeetCode().serialize(treeNode);
-        KLog.d("wangchen","serialize = "+ serialize)
+        KLog.d("wangchen", "serialize = " + serialize)
         reSizeSoftInput()
 //        doAsync {
 //            val coinChange = LeetCode().coinChange(intArrayOf(1, 2, 5), 100);
 //            KLog.d("wangchen","change = " + coinChange)
 //        }
         val myPow = LeetCode().myPow(2.0, 10);
-        KLog.d("wangchen","pow = " + myPow)
+        KLog.d("wangchen", "pow = " + myPow)
 
         //创建动画
 //        ViewAnimationUtils.createCircularReveal()
+        constraintLayout()
     }
 
-    var mLastHeightDifferece = 0;
+    private fun constraintLayout() {
+        //使用layer统一做旋转等
+        val animator = ValueAnimator.ofFloat(0f, 360f).setDuration(2000)
+        animator.addUpdateListener {
+            layer.rotation = it.animatedValue as Float
+        }
+        animator.start()
+        //这样不生效
+//        layer.animate().rotation(360f).setDuration(2000).start();
+//        layer.rotation = 50f
+        place1.setOnClickListener {
+            TransitionManager.beginDelayedTransition(constraint)
+            placeholder.setContentId(it.id)
+        }
+    }
+
     private fun reSizeSoftInput() {
         //rlRoot 当前窗体view
 //        rlRoot.post {
@@ -84,13 +102,13 @@ class MeActivity : BaseMVVMActivity<MeViewModel>() {
 //        EventBus.getDefault().post(MyEvent().apply { name = "testtest" })
         LiveEventBus.get("test").post(MyEvent().apply { name = "hahahahah" })
 //        doAsync {
-            val personDb = Room.databaseBuilder(applicationContext, PersonDataBase::class.java, "persondb")
-                    .build()
-            val personDAO = personDb.personDAO()
+        val personDb = Room.databaseBuilder(applicationContext, PersonDataBase::class.java, "persondb")
+                .build()
+        val personDAO = personDb.personDAO()
         doAsync {
-            personDAO.insertPerson(Person(3,"haha",30,"nima"))
+            personDAO.insertPerson(Person(3, "haha", 30, "nima"))
             val queryPerson = personDAO.queryPerson()
-            KLog.d("wangchen","queryPerson=$queryPerson")
+            KLog.d("wangchen", "queryPerson=$queryPerson")
         }
 
 //        }
