@@ -132,6 +132,7 @@ public class LeetCode {
         ListNode(int x) {
             val = x;
         }
+
         //简单的责任链
         int totalVal(int lastVal) {
             if (next != null) {
@@ -1096,5 +1097,29 @@ public class LeetCode {
         }
         return pre;
     }
+
+    //TODO 不理解解法 后面看视频https://leetcode-cn.com/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums.length == 0 || nums.length == 1){
+            return nums;
+        }
+        int count = k-1;
+        int[] maxInts = new int[nums.length - k + 1];
+        for (int i = k - 1; i < nums.length; i++) {
+            int currentMax = nums[i];
+            int currentCount =0;
+            while (currentCount != count){
+                currentMax =  Math.max(currentMax, nums[i - currentCount]);
+                currentCount++;
+            }
+
+            maxInts[i - k + 1] = currentMax;
+        }
+        return maxInts;
+    }
+    //https://leetcode-cn.com/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/
+//    public List<List<Integer>> pathSum(TreeNode root, int target) {
+
+//    }
 }
 
